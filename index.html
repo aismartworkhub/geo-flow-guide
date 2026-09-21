@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO 진단부터 Google Flow 영상까지</title>
+<meta name="description" content="소상공인이 내 가게의 GEO(생성형 AI 검색 최적화) 상태를 진단하고, 등급별 액션플랜을 받고, 그 플랜에 맞춰 Google Flow에서 이미지와 영상을 직접 만드는 4시간 실습 교안. 2026년 9월 21일 기준 Flow 최신 기능 반영.">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{
+    --teal:#0f4c5c; --teal-d:#0a3541; --teal-l:#e6f1f3; --teal-m:#1d7a8c;
+    --amber:#e09f3e; --amber-bg:#fff7e8; --amber-d:#9a6412;
+    --green:#1f8a5b; --green-bg:#e9f7ef; --red:#c8412b; --red-bg:#fdecea;
+    --violet:#5b4bb5; --violet-bg:#efedfb;
+    --ink:#1b2530; --sub:#5b6b7a; --line:#e3e8ec; --bg:#f7f8f7; --card:#ffffff; --code:#0d1b22;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:72px;}
+  body{font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;font-size:17px;word-break:keep-all;}
+  a{color:var(--teal-m);}
+  img,svg{max-width:100%;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav .wrap{display:flex;align-items:center;gap:14px;padding:10px 20px;}
+  .nav .brand{font-weight:800;color:var(--teal);font-size:15px;white-space:nowrap;}
+  .nav .links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;}
+  .nav .links::-webkit-scrollbar{display:none;}
+  .nav .links a{white-space:nowrap;text-decoration:none;color:var(--sub);font-size:14px;padding:6px 11px;border-radius:999px;}
+  .nav .links a:hover{background:var(--teal-l);color:var(--teal);}
+  /* HERO */
+  .hero{background:radial-gradient(1200px 500px at 80% -10%,#1d7a8c 0%,transparent 60%),linear-gradient(160deg,#0a3541 0%,#0f4c5c 55%,#155f70 100%);color:#fff;padding:64px 0 56px;}
+  .hero .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;font-size:13px;margin-bottom:22px;}
+  .hero h1{font-size:36px;line-height:1.3;font-weight:800;margin-bottom:16px;max-width:800px;}
+  .hero h1 em{font-style:normal;color:#ffd27a;}
+  .hero p.sub{font-size:18px;opacity:.92;margin-bottom:28px;max-width:760px;}
+  .hero .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:800px;}
+  .hero .meta div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 16px;font-size:15px;}
+  .hero .meta b{display:block;font-size:12px;opacity:.7;font-weight:600;margin-bottom:2px;}
+  .hero .cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:12px;padding:13px 22px;font-size:15px;}
+  .btn-amber{background:var(--amber);color:#1b2530;}
+  .btn-ghost{border:1px solid rgba(255,255,255,.4);color:#fff;}
+  .hero .trust{margin-top:30px;font-size:13px;opacity:.75;}
+  /* SECTIONS */
+  section{padding:60px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .kicker{font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--amber-d);text-transform:uppercase;margin-bottom:8px;}
+  h2{font-size:30px;line-height:1.3;font-weight:800;color:var(--teal-d);margin-bottom:14px;}
+  h3{font-size:22px;font-weight:800;color:var(--teal);margin:44px 0 12px;padding-top:8px;}
+  h4{font-size:17px;font-weight:700;color:var(--ink);margin:18px 0 8px;}
+  p{margin-bottom:14px;}
+  ul,ol{margin:0 0 14px 22px;}
+  li{margin-bottom:6px;}
+  .lead{font-size:18px;color:var(--sub);max-width:780px;}
+  .part{background:linear-gradient(90deg,var(--teal-l),transparent);border-left:6px solid var(--teal);padding:20px 22px;border-radius:0 14px 14px 0;margin:0 0 30px;}
+  .part .t{font-size:13px;font-weight:700;color:var(--teal-m);margin-bottom:4px;}
+  .part h2{margin-bottom:6px;font-size:26px;}
+  .part p{margin:0;color:var(--sub);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:16px 0;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr;}}
+  .tldr{background:var(--amber-bg);border:1px solid #f3d9a4;border-radius:16px;padding:22px 24px;margin:0 0 20px;}
+  .tldr b.h{display:block;color:var(--amber-d);font-size:13px;letter-spacing:1px;margin-bottom:8px;}
+  .tldr ol{margin-bottom:0;}
+  .callout{border-radius:14px;padding:16px 20px;margin:18px 0;font-size:15.5px;border:1px solid;}
+  .callout.note{background:var(--teal-l);border-color:#c5dde2;}
+  .callout.warn{background:var(--amber-bg);border-color:#f3d9a4;}
+  .callout.good{background:var(--green-bg);border-color:#bfe5cf;}
+  .callout.bad{background:var(--red-bg);border-color:#f5c6bf;}
+  .callout.agent{background:var(--violet-bg);border-color:#cfc8f0;}
+  .callout b.h{display:block;margin-bottom:4px;}
+  .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;margin-right:6px;vertical-align:middle;}
+  .pill.t{background:var(--teal-l);color:var(--teal);}
+  .pill.a{background:var(--amber-bg);color:var(--amber-d);}
+  .pill.g{background:var(--green-bg);color:var(--green);}
+  .pill.r{background:var(--red-bg);color:var(--red);}
+  .pill.v{background:var(--violet-bg);color:var(--violet);}
+  .pill.k{background:#eef0f3;color:var(--sub);}
+  /* 용어 */
+  .def{border-left:4px solid var(--amber);background:#fff;padding:12px 18px;border-radius:0 12px 12px 0;margin:14px 0;font-size:15.5px;}
+  .def b{color:var(--teal-d);}
+  .glossary{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:760px){.glossary{grid-template-columns:1fr;}}
+  .glossary .def{margin:0;}
+  /* 실습 헤더 */
+  .prac{display:flex;align-items:flex-start;gap:16px;margin:48px 0 14px;padding-top:24px;border-top:2px dashed var(--line);}
+  .prac .num{flex:none;width:56px;height:56px;border-radius:16px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;line-height:1.1;text-align:center;}
+  .prac .num small{display:block;font-size:10px;opacity:.75;font-weight:600;}
+  .prac .num.v{background:var(--violet);}
+  .prac h3{margin:0 0 4px;padding:0;}
+  .prac .goal{color:var(--sub);font-size:15px;}
+  .prac .time{margin-left:auto;flex:none;font-size:13px;font-weight:700;color:var(--amber-d);background:var(--amber-bg);padding:5px 12px;border-radius:999px;}
+  .feel{background:var(--green-bg);border:1px solid #bfe5cf;border-radius:12px;padding:12px 16px;font-size:15px;margin:10px 0 18px;}
+  .feel b{color:var(--green);}
+  /* 단계 */
+  .steps{margin:14px 0;}
+  .step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step .n{width:40px;height:40px;border-radius:12px;background:#fff;border:2px solid var(--teal);color:var(--teal);font-weight:800;display:grid;place-items:center;font-size:16px;}
+  .step .where{font-size:13px;color:var(--sub);margin-bottom:4px;}
+  .step .where b{color:var(--teal-m);}
+  .step h4{margin:0 0 6px;}
+  .step p{margin-bottom:8px;font-size:15.5px;}
+  .step .check{font-size:14px;color:var(--green);font-weight:600;}
+  .step .term{font-size:14px;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 12px;margin:6px 0 8px;color:#334;}
+  .step .term b{color:var(--amber-d);}
+  /* 화면 목업 */
+  .screen{border:1px solid #d7dde2;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 12px 32px rgba(15,76,92,.10);margin:16px 0 20px;}
+  .screen .bar{display:flex;align-items:center;gap:10px;background:#eef1f4;padding:9px 14px;border-bottom:1px solid #d7dde2;font-size:12px;color:#667;}
+  .screen .dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;background:#d0d5da;}
+  .screen .dots span:nth-child(1){background:#ff5f57;}
+  .screen .dots span:nth-child(2){background:#febc2e;}
+  .screen .dots span:nth-child(3){background:#28c840;}
+  .screen .url{flex:1;background:#fff;border:1px solid #d7dde2;border-radius:8px;padding:4px 12px;font-size:12px;color:#556;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .screen .body{padding:18px 20px;font-size:15px;}
+  .screen .cap{background:#f8fafb;border-top:1px solid var(--line);padding:9px 16px;font-size:13px;color:var(--sub);}
+  .screen .cap b{color:var(--teal);}
+  /* Flow 목업 */
+  .flowui{background:#101418;color:#e6e9ec;border-radius:12px;padding:14px;font-size:13.5px;}
+  .flowui .top{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+  .flowui .tab{padding:4px 12px;border-radius:999px;background:#1c232b;color:#aab;}
+  .flowui .tab.on{background:#2a3a4a;color:#fff;font-weight:700;}
+  .flowui .canvas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+  .flowui .canvas div{aspect-ratio:16/9;background:linear-gradient(135deg,#243342,#3c5a6b);border-radius:8px;display:grid;place-items:center;color:#cfe;font-size:12px;text-align:center;padding:4px;}
+  .flowui .pbox{background:#1c232b;border:1px solid #33414f;border-radius:12px;padding:10px 12px;}
+  .flowui .pbox .row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+  .flowui .chip{font-size:11.5px;background:#2a3542;border-radius:6px;padding:2px 8px;color:#bcd;}
+  .flowui .chip.on{background:#6d5bd0;color:#fff;font-weight:700;}
+  .flowui .chip.amber{background:#e09f3e;color:#1b2530;font-weight:700;}
+  .flowui .input{color:#9fb;font-family:inherit;}
+  .flowui .side{background:#161c23;border:1px solid #33414f;border-radius:10px;padding:10px 12px;margin-top:8px;}
+  .flowui .side .a{color:#c9bfff;font-weight:700;}
+  .flowui .side p{margin:4px 0;font-size:13px;color:#dde;}
+  /* chat */
+  .chat .msg{display:flex;gap:12px;margin:12px 0;}
+  .chat .who{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;}
+  .chat .user .who{background:#e5e7eb;color:#333;}
+  .chat .ai .who{background:#10a37f;color:#fff;}
+  .chat .ag .who{background:var(--violet);color:#fff;}
+  .chat .bubble{background:#f7f7f8;border-radius:14px;padding:12px 16px;line-height:1.65;flex:1;font-size:14.5px;}
+  .chat .user .bubble{background:#eaf3ff;}
+  .chat .bubble ul,.chat .bubble ol{margin:6px 0 4px 20px;}
+  .hl{background:#fff3c4;padding:0 3px;border-radius:3px;}
+  .miss{color:var(--red);font-weight:700;}
+  .hit{color:var(--green);font-weight:700;}
+  /* BEFORE / AFTER */
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+  @media(max-width:760px){.ba{grid-template-columns:1fr;}}
+  .ba > div{border-radius:14px;padding:16px 18px;font-size:14.5px;border:1px solid;}
+  .ba .b{background:var(--red-bg);border-color:#f5c6bf;}
+  .ba .a{background:var(--green-bg);border-color:#bfe5cf;}
+  .ba .lab{font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:8px;}
+  .ba .b .lab{color:var(--red);} .ba .a .lab{color:var(--green);}
+  .ba p{margin-bottom:8px;}
+  /* PROMPT */
+  .prompt{background:var(--code);color:#e8f0f3;border-radius:14px;padding:18px 20px;margin:14px 0;position:relative;font-size:14.5px;line-height:1.7;white-space:pre-wrap;font-family:'Pretendard Variable',Pretendard,sans-serif;}
+  .prompt .lab{display:block;color:#ffd27a;font-weight:800;font-size:12px;letter-spacing:1px;margin-bottom:8px;}
+  .prompt .copy{position:absolute;top:12px;right:12px;background:var(--amber);color:#1b2530;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
+  .prompt .var{color:#8ce2a6;}
+  .prompt .var.filled{color:#0d1b22;background:#8ce2a6;border-radius:4px;padding:0 4px;}
+  .prompt.light{background:#fff;color:var(--ink);border:1px solid var(--line);}
+  .prompt.light .lab{color:var(--amber-d);}
+  .prompt.light .var{color:var(--green);font-weight:700;}
+  .prompt.light .var.filled{background:#d7f5e3;color:#0b3d24;}
+  .prompt.en{font-family:Consolas,'Courier New',monospace;font-size:13.5px;}
+  .prompt .ko{display:block;color:#9fb3bf;font-size:13px;margin-top:8px;font-family:'Pretendard Variable',Pretendard,sans-serif;white-space:pre-wrap;}
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14.5px;background:#fff;border-radius:12px;overflow:hidden;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  th{background:var(--teal-l);color:var(--teal-d);font-weight:700;font-size:13.5px;}
+  tr:last-child td{border-bottom:none;}
+  .lv{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;}
+  .lv.none{background:#eef0f3;color:#778;} .lv.m{background:#fff3c4;color:#8a6a00;} .lv.s{background:#dbeafe;color:#1e40af;} .lv.c{background:var(--green-bg);color:var(--green);}
+  /* CHECKLIST */
+  .check-list{list-style:none;margin:10px 0;}
+  .check-list li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);margin:0;font-size:15.5px;}
+  .check-list li:last-child{border-bottom:none;}
+  .check-list input{margin-top:6px;width:18px;height:18px;flex:none;accent-color:var(--teal);}
+  .check-list small{display:block;color:var(--sub);font-size:13.5px;}
+  /* 진단 도구 */
+  .diag{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:20px 22px;margin:18px 0 26px;}
+  .diag h4{margin-top:0;}
+  .diag .aigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  @media(max-width:760px){.diag .aigrid{grid-template-columns:1fr 1fr;}}
+  .diag .aigrid label{display:block;font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px;}
+  .diag select,.diag input[type=text]{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;background:#fff;}
+  .diag .result{margin-top:16px;border-radius:12px;padding:16px 18px;border:1px solid var(--line);background:var(--bg);}
+  .diag .score{font-size:34px;font-weight:800;color:var(--teal-d);line-height:1.1;}
+  .diag .score small{font-size:14px;color:var(--sub);font-weight:600;}
+  .diag .grade{display:inline-block;font-size:14px;font-weight:800;padding:4px 12px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+  .diag .bar{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0;}
+  .diag .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));width:0;transition:width .4s;}
+  .plan{border:2px solid var(--green);border-radius:16px;padding:20px 22px;margin:20px 0;background:#fff;}
+  .plan.hidden{display:none;}
+  .plan h4{margin-top:0;color:var(--green);}
+  /* 입력 폼 */
+  .fill{background:#fff;border:2px solid var(--violet);border-radius:16px;padding:20px 22px;margin:18px 0 26px;}
+  .fill .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+  @media(max-width:700px){.fill .grid{grid-template-columns:1fr;}}
+  .fill label{display:block;font-size:12.5px;font-weight:700;color:var(--sub);margin-bottom:3px;}
+  .fill input,.fill textarea,.fill select{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;background:#fff;}
+  .fill input:focus,.fill textarea:focus{outline:2px solid var(--violet);border-color:transparent;}
+  .fill .bar2{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:13px;color:var(--sub);}
+  .fbtn{background:var(--teal);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .fbtn.gray{background:#e5e7eb;color:#333;}
+  .fbtn.violet{background:var(--violet);}
+  .fbtn.amber{background:var(--amber);color:#1b2530;}
+  .kit-num{display:inline-block;background:var(--amber);color:#1b2530;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800;margin-right:8px;}
+  .kit-num.v{background:var(--violet);color:#fff;}
+  .kit-when{font-size:13px;color:var(--sub);margin:-6px 0 8px;}
+  /* 에이전트 박스 */
+  .agentbox{border:2px solid var(--violet);border-radius:16px;padding:20px 22px;margin:24px 0;background:#fff;}
+  .agentbox .t{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+  .agentbox .t h4{margin:0;font-size:19px;color:var(--violet);}
+  /* 타임라인 */
+  .timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0;}
+  .timeline div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;}
+  .timeline b{display:block;color:var(--teal);font-size:13px;margin-bottom:4px;}
+  .timeline .clip{aspect-ratio:9/16;max-height:120px;background:linear-gradient(160deg,#243342,#3c5a6b);border-radius:8px;margin-bottom:8px;display:grid;place-items:center;color:#cfe;font-size:12px;text-align:center;padding:6px;}
+  /* FAQ */
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;margin:8px 0;}
+  summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none;}
+  summary::-webkit-details-marker{display:none;}
+  summary::before{content:"Q";display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--teal);color:#fff;font-size:13px;margin-right:10px;}
+  details p{padding:0 18px 16px 54px;margin:0;color:#334;}
+  .hw{background:#fff;border:2px solid var(--amber);border-radius:16px;padding:20px 24px;margin:30px 0 0;}
+  .hw b.h{display:block;color:var(--amber-d);font-size:13px;letter-spacing:1px;margin-bottom:8px;}
+  footer{background:var(--teal-d);color:#cfe0e5;padding:40px 0;font-size:14px;}
+  footer a{color:#ffd27a;}
+  .srcs li{font-size:14px;color:var(--sub);}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1b2530;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;}
+  .toast.on{opacity:1;}
+  @media(max-width:640px){
+    body{font-size:16px;}
+    .hero{padding:48px 0 40px;} .hero h1{font-size:28px;} h2{font-size:25px;} h3{font-size:20px;}
+    .prac{flex-wrap:wrap;} .prac .time{margin-left:0;}
+  }
+  @media print{.nav,.prompt .copy,.toast{display:none;} section{padding:24px 0;} .screen{box-shadow:none;} .plan.hidden{display:block;}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <span class="brand">GEO × Google Flow 실습</span>
+  <div class="links">
+    <a href="#start">시작</a>
+    <a href="#terms">용어</a>
+    <a href="#diag">1 진단</a>
+    <a href="#plan">2 플랜</a>
+    <a href="#brief">3 브리프</a>
+    <a href="#flow">4 Flow 준비</a>
+    <a href="#agent">5 에이전트 기획</a>
+    <a href="#image">6 이미지</a>
+    <a href="#video">7 영상</a>
+    <a href="#publish">8 올리기</a>
+    <a href="#finish">점검·FAQ</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="badge">소상공인 AI 실전 과정 · 4시간 워크숍 · 2026년 9월 21일 기준 Google Flow 최신 기능 반영</span>
+  <h1>AI가 우리 가게를 추천하게 만들고,<br>그 근거가 될 <em>사진과 영상</em>을 내 손으로 만드는 날</h1>
+  <p class="sub">먼저 내 가게가 ChatGPT·Gemini·네이버 AI·구글 AI 오버뷰에 어떻게 나오는지 진단하고, 점수에 따라 30일 액션플랜을 받습니다. 그다음 그 플랜에 필요한 이미지와 15초 영상을 Google Flow에서 직접 만듭니다. 영상 편집을 한 번도 안 해 본 분을 기준으로, 화면 위치와 용어를 하나씩 설명합니다.</p>
+  <div class="meta">
+    <div><b>대상</b>소상공인·1인기업 대표 (영상 비전문가)</div>
+    <div><b>시간</b>4시간 (진단 70분 · 기획·이미지 80분 · 영상 70분 · 휴식)</div>
+    <div><b>준비물</b>노트북(PC 권장) + 구글 계정 + 가게 사진 3장 + 로고</div>
+    <div><b>비용</b>무료 계정으로 완주 가능 (하루 50크레딧)</div>
+  </div>
+  <div class="cta">
+    <a class="btn btn-amber" href="#diag">1단계 진단부터 시작</a>
+    <a class="btn btn-ghost" href="#brief">내 정보 넣고 프롬프트 자동 생성</a>
+  </div>
+  <p class="trust">근거: 본 과정 GEO 실전 교안 v2(2026-09-19), Google Flow 공식 도움말(모델·크레딧·에이전트, 2026-09 확인), Google 공식 블로그 Flow 업데이트(2026-02-25, 2026-05-19). Flow 요금과 화면은 자주 바뀌므로 수업 직전 flow.google.com에서 재확인합니다.</p>
+</div></header>
+
+<!-- ================= START ================= -->
+<section id="start"><div class="wrap">
+  <div class="tldr">
+    <b class="h">이 교안 한눈에 보기</b>
+    <ol>
+      <li><b>진단(70분)</b> AI 4곳에 같은 질문을 던져 우리 가게가 '없음·멘션·소스·인용' 중 어디인지 적고, 채널 점검 10항목을 체크하면 점수와 등급이 자동으로 나옵니다.</li>
+      <li><b>플랜</b> 등급별 30일 액션플랜이 열립니다. 플랜에는 "글자로 심을 것"과 함께 <b>"이미지·영상으로 만들어야 할 것"</b>이 목록으로 나옵니다.</li>
+      <li><b>브리프</b> 내 가게 정보 8칸을 채우면 이 교안의 모든 프롬프트(에이전트 지침, 이미지, 영상, 대체 텍스트, 유튜브 설명란)가 내 가게 이름으로 자동 치환됩니다.</li>
+      <li><b>Flow 실습(150분)</b> 에이전트에게 기획을 맡기고 → 이미지 3컷(무료) → 6초 클립 3개(무료 크레딧) → 15초 영상 → 자막·설명란까지 GEO 규칙대로 올립니다.</li>
+    </ol>
+  </div>
+
+  <div class="callout note"><b class="h">왜 GEO 교안에 영상 실습이 붙어 있나</b>
+  AI는 사진과 영상 자체를 보지 못합니다. AI가 읽는 것은 사진의 <b>대체 텍스트</b>, 영상의 <b>제목·설명란·자막</b>입니다. 그런데 손님은 AI 답변을 보고 나서 반드시 우리 플레이스나 유튜브에 '확인하러' 옵니다. 그때 화면에 아무것도 없으면 AI가 추천해도 손님은 돌아섭니다. 그래서 순서가 "AI가 읽을 글자 → 그 글자를 증명할 이미지·영상 → 영상에 다시 글자(자막·설명)"입니다. 이 교안은 그 세 단계를 한 번에 끝냅니다.</div>
+
+  <h3>4시간 시간표</h3>
+  <table>
+    <tr><th style="width:110px">시간</th><th>모듈</th><th>결과물</th></tr>
+    <tr><td>00:00~01:10</td><td>1·2·3 진단 → 플랜 → 브리프</td><td>진단표 v0(사진 저장), 내 등급 플랜, 내 가게 브리프 1장</td></tr>
+    <tr><td>01:10~01:20</td><td>휴식</td><td></td></tr>
+    <tr><td>01:20~02:40</td><td>4·5·6 Flow 준비 → 에이전트 기획 → 이미지</td><td>프로젝트 1개, 스토리보드 3컷, 이미지 3장(대체 텍스트 포함)</td></tr>
+    <tr><td>02:40~02:50</td><td>휴식</td><td></td></tr>
+    <tr><td>02:50~04:00</td><td>7·8 영상 → 올리기 → 점검</td><td>6초 클립 3개, 15초 영상 1편, 유튜브 설명란·인스타 캡션 완성</td></tr>
+  </table>
+</div></section>
+
+<!-- ================= 용어 ================= -->
+<section id="terms"><div class="wrap">
+  <div class="kicker">TERMS · 먼저 읽는 용어 12개</div>
+  <h2>이 교안에 나오는 말, 여기서 한 번만 설명합니다</h2>
+  <p class="lead">본문에서 처음 나올 때마다 다시 짧게 설명하지만, 헷갈리면 여기로 돌아오세요.</p>
+  <div class="glossary">
+    <div class="def"><b>GEO(생성형 엔진 최적화)</b> ChatGPT·Gemini·네이버 AI 브리핑·구글 AI 오버뷰가 답을 만들 때 우리 가게 정보를 근거로 쓰게 만드는 일. 검색 순위가 아니라 "AI 답변 문장 안에 들어가는 것"이 목표.</div>
+    <div class="def"><b>AI 오버뷰 / AI 브리핑</b> 구글·네이버 검색 결과 맨 위에 뜨는 AI 요약 상자. 손님은 여기만 읽고 결정하는 경우가 많음.</div>
+    <div class="def"><b>대체 텍스트(alt)</b> 사진에 붙이는 '보이지 않는 설명 글'. 사람 눈에는 안 보이지만 AI와 검색엔진은 이것으로 사진 내용을 읽음.</div>
+    <div class="def"><b>프롬프트</b> AI에게 내리는 글 지시문. "따뜻한 반찬가게 진열대, 아침 햇살, 사진풍"처럼 만들고 싶은 것을 말로 적은 것.</div>
+    <div class="def"><b>Google Flow</b> 글 한 줄로 이미지·영상·음악을 한 화면에서 만드는 구글의 AI 창작 도구. 주소 flow.google.com. 설치 없이 브라우저에서 실행.</div>
+    <div class="def"><b>프로젝트</b> Flow의 작업 폴더. 한 가게, 한 캠페인당 하나. 만든 이미지·영상·대화가 모두 여기 저장됨.</div>
+    <div class="def"><b>모델</b> Flow 안에서 실제로 그림이나 영상을 만드는 AI 엔진. 이미지는 'Nano Banana', 영상은 'Veo'와 'Gemini Omni'. 화면에서 고를 수 있음.</div>
+    <div class="def"><b>크레딧</b> Flow의 사용권 단위. 무료 계정은 하루 50크레딧. 이미지(기본 모델)는 0크레딧, 6초 영상은 10크레딧부터. 다음 날 다시 50으로 채워짐(이월 없음).</div>
+    <div class="def"><b>에이전트(Flow Agent)</b> Flow 안에 있는 대화형 조수. 기획·스토리보드·프롬프트 작성·여러 버전 생성·정리를 대신함. 대화는 크레딧을 쓰지 않음(하루 질문 횟수 제한).</div>
+    <div class="def"><b>재료(Ingredients) / @</b> 내 가게 사진·로고를 올려 "이걸 써서 만들어"라고 지정하는 기능. 프롬프트에 @를 치면 올린 사진을 불러옴. 가짜 가게가 아닌 진짜 우리 가게가 나오게 하는 핵심.</div>
+    <div class="def"><b>프레임(Frames)</b> 이미지 1장을 '시작 장면'으로 놓고 움직임만 얹어 영상으로 만드는 방식. 실패가 가장 적은 초보자용 영상 제작법.</div>
+    <div class="def"><b>클립 / 컷 / 비율</b> 클립은 영상 조각(4~8초). 컷은 장면 하나. 비율은 화면 모양으로 9:16은 세로(릴스·쇼츠), 16:9는 가로(유튜브·홈페이지).</div>
+  </div>
+</div></section>
+
+<!-- ================= 1 진단 ================= -->
+<section id="diag"><div class="wrap">
+  <div class="part"><div class="t">모듈 1 · 40분</div><h2>내 가게 GEO 진단: 지금 AI는 우리를 뭐라고 하나</h2><p>같은 질문을 AI 4곳에 넣고 결과를 기록한 뒤, 채널 점검 10항목을 체크합니다. 점수와 등급이 자동 계산되고, 모듈 2에서 등급별 플랜이 열립니다.</p></div>
+
+  <div class="prac"><div class="num">실습<small>1-1</small></div><div><h3>AI 4곳에 같은 질문 던지기</h3><div class="goal">우리 상호가 답변에 나오는지, 나온다면 이유와 출처가 붙는지 봅니다.</div></div><span class="time">20분</span></div>
+  <div class="feel"><b>체감 포인트</b> 같은 질문인데 AI마다 답이 다릅니다. 어느 AI가 우리를 알고 어느 AI가 모르는지 표에 색이 칠해지는 순간, 무엇부터 고칠지가 보입니다.</div>
+
+  <div class="prompt light"><span class="lab">진단 질문 ① 손님이 묻는 방식</span><button class="copy" data-copy="q1">복사</button><span id="q1"><span class="var" data-k="area">[우리 동네]</span>에서 <span class="var" data-k="biz">[우리 업종]</span> 잘하는 곳 추천해줘. 왜 추천하는지 이유도 같이 알려줘.</span></div>
+  <div class="prompt light"><span class="lab">진단 질문 ② AI가 우리를 얼마나 아는지</span><button class="copy" data-copy="q2">복사</button><span id="q2"><span class="var" data-k="name">[우리 상호]</span>에 대해 알고 있는 것을 전부 알려줘. 어디에 있고, 무엇을 하고, 무엇을 잘하고, 누가 운영하는 곳이야? 모르는 항목은 "모름"이라고 표시해줘.</span></div>
+
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>chatgpt.com → 왼쪽 상단 메뉴 → '임시 채팅' 켜기</b></div><h4>ChatGPT에 질문 ①②를 넣고 아래 표에 적습니다</h4><div class="term"><b>임시 채팅이란</b> 내 이전 대화를 기억하지 않는 새 창. 평소 창에서는 우리 가게 얘기를 많이 해서 결과가 실제보다 좋게 나올 수 있습니다.</div><p class="check">확인: 아래 진단 도구의 ChatGPT 칸 선택 완료</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>gemini.google.com (구글 계정 로그인)</b></div><h4>Gemini에 같은 질문</h4><p>Gemini는 구글 지도·구글 비즈니스 프로필을 잘 끌어옵니다. 구글에 등록이 안 된 가게는 여기서 '없음'이 나오는 경우가 많습니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>naver.com 검색창에 질문 문장 그대로 입력 → 상단 'AI 브리핑'</b></div><h4>네이버 AI 브리핑 확인</h4><p>브리핑 본문에 상호가 있는지, 출처 카드에 우리 블로그·플레이스가 있는지 봅니다.</p></div></div>
+    <div class="step"><div class="n">4</div><div><div class="where">어디서 <b>google.com 검색창에 같은 문장 → 최상단 'AI 개요'</b></div><h4>구글 AI 오버뷰 확인 후, 화면 전체를 캡처해 둡니다</h4><p>안 뜨면 "산본 반찬가게 추천 이유"처럼 조금 더 정보형 문장으로 바꿔 봅니다. 오늘 캡처가 30일 뒤 비교할 '출발점 사진'입니다.</p><p class="check">확인: 4개 AI 결과 캡처 4장 저장</p></div></div>
+  </div>
+
+  <div class="screen"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">chatgpt.com — 임시 채팅</span></div>
+  <div class="body chat">
+    <div class="msg user"><div class="who">나</div><div class="bubble">군포 산본에서 반찬가게 추천해줘. 왜 추천하는지 이유도 같이 알려줘.</div></div>
+    <div class="msg ai"><div class="who">AI</div><div class="bubble">산본 지역에서 반찬가게로 알려진 곳을 소개해 드릴게요.<ul><li><b>A반찬</b> — 네이버 리뷰 210건, "간이 세지 않다"는 평이 많습니다. <span class="hl">출처: 네이버 플레이스</span></li><li><b>B집밥</b> — 블로그에 하루 반찬 종류가 정리돼 있습니다. <span class="hl">출처: 블로그</span></li></ul><span class="miss">※ 'OO반찬'은 답변에 없음</span></div></div>
+  </div>
+  <div class="cap"><b>읽는 법</b> AI가 추천 이유로 든 것은 리뷰 수, 블로그의 반찬 목록입니다. 전부 <b>글자로 적힌 정보</b>입니다. 사진이 아무리 많아도 글자가 없으면 AI가 읽을 것이 없습니다.</div></div>
+
+  <div class="prac"><div class="num">실습<small>1-2</small></div><div><h3>진단표 + 채널 점검표 → 점수·등급 자동 계산</h3><div class="goal">아래 도구에 선택만 하면 점수와 등급이 나오고, 모듈 2의 내 플랜이 열립니다.</div></div><span class="time">20분</span></div>
+
+  <div class="diag" id="diagtool">
+    <h4>A. AI 답변 진단표 (질문 ① 기준)</h4>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:8px">기준: <span class="lv none">없음</span> 상호가 전혀 안 나옴 · <span class="lv m">멘션</span> 이름만 언급 · <span class="lv s">소스</span> 우리 정보가 추천 이유로 쓰임 · <span class="lv c">인용</span> 우리 링크가 출처로 표시됨</p>
+    <div class="aigrid">
+      <div><label>ChatGPT</label><select class="ai"><option value="0">없음</option><option value="1">멘션</option><option value="2">소스</option><option value="3">인용</option></select></div>
+      <div><label>Gemini</label><select class="ai"><option value="0">없음</option><option value="1">멘션</option><option value="2">소스</option><option value="3">인용</option></select></div>
+      <div><label>네이버 AI 브리핑</label><select class="ai"><option value="0">없음</option><option value="1">멘션</option><option value="2">소스</option><option value="3">인용</option></select></div>
+      <div><label>구글 AI 오버뷰</label><select class="ai"><option value="0">없음</option><option value="1">멘션</option><option value="2">소스</option><option value="3">인용</option></select></div>
+    </div>
+
+    <h4 style="margin-top:22px">B. 채널 점검표 (해당하면 체크)</h4>
+    <ul class="check-list">
+      <li><input type="checkbox" class="ch" data-w="1"><span>네이버 플레이스(스마트플레이스)에 우리 업체가 등록돼 있고 내가 관리자다<small>smartplace.naver.com 에서 '내 업체'가 보이면 체크</small></span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>구글 비즈니스 프로필이 등록·인증돼 있다<small>business.google.com 에서 프로필 수정이 가능하면 체크. 온라인 브랜드는 자사몰이 구글에 검색되면 체크</small></span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>상호·주소·영업시간·전화·대표 이름 5종이 플레이스·구글·블로그·인스타·홈페이지에서 글자 하나까지 같다</span></li>
+      <li><input type="checkbox" class="ch" data-w="2"><span>"[상호]는 [어디]에서 [누구]에게 [무엇]을 하는 [업종]입니다" 꼴의 <b>정의문</b>이 소개글 첫 문장에 있다</span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>소개글에 확인 가능한 숫자가 3개 이상 있다(개업 연도, 하루 조리량, 경력, 가격대 등)</span></li>
+      <li><input type="checkbox" class="ch" data-w="2"><span>손님 질문에 답하는 글(FAQ 또는 Q&amp;A 형식 블로그)이 1편 이상 있다</span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>글마다 "글쓴이: 이름(직책)"이 붙어 있고, 대표 프로필(자격·경력·연도)이 글자로 있다</span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>최근 리뷰 5개에 구체적인 답글이 달려 있다(단순 "감사합니다" 제외)</span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>대표 사진 3장 이상에 <b>대체 텍스트(alt)</b> 또는 설명 캡션이 붙어 있다<small>홈페이지·상세페이지·인스타 '대체 텍스트' 칸 확인</small></span></li>
+      <li><input type="checkbox" class="ch" data-w="1"><span>가게 소개 영상이 1편 이상 있고, 제목이 손님 질문형이며 설명란에 정의문·연락처, 자막이 켜져 있다</span></li>
+    </ul>
+
+    <div class="result">
+      <div><span class="score"><span id="score">0</span><small> / 24점</small></span><span class="grade" id="grade"></span></div>
+      <div class="bar"><i id="bar"></i></div>
+      <p id="verdict" style="margin:6px 0 0;font-size:15px"></p>
+      <div class="bar2" style="margin-top:10px"><button class="fbtn amber" id="saveDiag">진단 결과 문장 복사(메모용)</button><button class="fbtn gray" id="resetDiag">초기화</button></div>
+    </div>
+  </div>
+
+  <div class="callout warn"><b class="h">점수는 '지금'의 사진일 뿐입니다</b> 오늘 고쳐도 AI 답변에는 보통 1~6개월 뒤에 반영됩니다. 그래서 오늘 캡처 4장과 이 점수를 반드시 저장해 두고, 30일 뒤 같은 질문으로 다시 잽니다. 변화가 보이는 것은 그때입니다.</div>
+</div></section>
+
+<!-- ================= 2 플랜 ================= -->
+<section id="plan"><div class="wrap">
+  <div class="part"><div class="t">모듈 2 · 15분</div><h2>등급별 30일 액션플랜: 글자로 심을 것 + 이미지·영상으로 만들 것</h2><p>모듈 1 점수에 따라 아래 세 플랜 중 하나가 열립니다. 각 플랜의 오른쪽 열이 오늘 Flow에서 만들 제작물 목록입니다.</p></div>
+
+  <div class="callout note"><b class="h">세 등급의 뜻</b>
+  <b>0~7점 · 출발 전</b>: AI가 읽을 글자 자체가 없는 상태. 정의문과 채널 통일이 먼저입니다. <b>8~15점 · 읽히는 중</b>: 글자는 있지만 구조(FAQ)와 신뢰 신호(이름·숫자·사례)가 부족. <b>16~24점 · 인용 직전</b>: 제3자 신호(리뷰·매체)와 영상 채널 확장으로 인용률을 올릴 단계.</div>
+
+  <div class="plan" id="planA">
+    <h4><span class="pill r">플랜 A · 0~7점 · 출발 전</span> 30일 안에 'AI가 읽을 글자'와 '증명 사진'을 만든다</h4>
+    <table>
+      <tr><th style="width:80px">주차</th><th>글자로 심을 것 (GEO 교안 v2 실습 번호)</th><th>오늘 Flow에서 만들 것</th></tr>
+      <tr><td>1주</td><td>기준 소개문 3종 만들기(실습 2) · 네이버 플레이스·구글 비즈니스 프로필 등록 신청(실습 5)</td><td><b>대표 이미지 3컷</b>: ① 외관 또는 대표 상품 ② 만드는 과정(손·재료) ③ 사장님 또는 팀. 각 이미지에 대체 텍스트</td></tr>
+      <tr><td>2주</td><td>5종 표기 통일(실습 5) · 손님 질문 10개 수집(실습 3)</td><td>플레이스·구글 프로필 대표 사진에 위 3컷 등록. 인스타 프로필 교체</td></tr>
+      <tr><td>3주</td><td>대표 글 1편 이중 글쓰기(실습 4)</td><td><b>15초 소개 영상</b>(세로 9:16): 3컷을 6초 클립으로 만들어 이어 붙임. 자막에 정의문</td></tr>
+      <tr><td>4주</td><td>유튜브·인스타 설명란 정비(실습 9) · 재진단</td><td>영상을 유튜브 쇼츠·인스타 릴스에 올리고 제목·설명란·자막을 GEO 규칙으로</td></tr>
+    </table>
+  </div>
+
+  <div class="plan hidden" id="planB">
+    <h4><span class="pill a">플랜 B · 8~15점 · 읽히는 중</span> 30일 안에 '구조'와 '사람'을 보이게 한다</h4>
+    <table>
+      <tr><th style="width:80px">주차</th><th>글자로 심을 것</th><th>오늘 Flow에서 만들 것</th></tr>
+      <tr><td>1주</td><td>FAQ 8문항 발행 + 스키마(실습 6) · 5종 표기 재점검</td><td><b>FAQ 답변용 이미지 3컷</b>: 손님이 가장 많이 묻는 질문 3개의 답을 보여 주는 장면(예: "주차 돼요?" → 주차장 안내, "저염 돼요?" → 저염 반찬 라벨)</td></tr>
+      <tr><td>2주</td><td>대표 프로필 문단 + 글쓴이 표기(실습 7)</td><td><b>사장님 소개 컷 1장</b>(실제 사진을 재료로 넣어 배경·조명만 정리). 프로필 사진 4곳 통일</td></tr>
+      <tr><td>3주</td><td>고객 사례 1편(실습 7) · 리뷰 답글 5개 GEO형(실습 8)</td><td><b>15초 'Q&amp;A 영상'</b>: 질문 자막 → 답 장면 → 정의문 자막. 3컷 6초 클립</td></tr>
+      <tr><td>4주</td><td>유튜브 챕터·설명란(실습 9) · 재진단</td><td>영상 설명란에 FAQ 3문항 텍스트 그대로 복사, 챕터 타임스탬프</td></tr>
+    </table>
+  </div>
+
+  <div class="plan hidden" id="planC">
+    <h4><span class="pill g">플랜 C · 16~24점 · 인용 직전</span> 30일 안에 '남이 하는 말'과 '영상 채널'을 늘린다</h4>
+    <table>
+      <tr><th style="width:80px">주차</th><th>글자로 심을 것</th><th>오늘 Flow에서 만들 것</th></tr>
+      <tr><td>1주</td><td>전문 매체 기고 또는 지역 커뮤니티 소개 1건 섭외(실습 8) · 홈페이지 기술 점검(실습 10)</td><td><b>기고·보도용 이미지 3컷</b>(가로 16:9): 매체가 그대로 쓸 수 있는 깨끗한 제품·현장·인물 컷, 로고 재료 반영</td></tr>
+      <tr><td>2주</td><td>고객 사례 2편 추가(문제 → 한 일 → 숫자 결과)</td><td><b>사례 영상 15초</b>: 사례의 숫자를 자막으로. 에이전트에게 "숫자가 주인공인 장면" 기획 요청</td></tr>
+      <tr><td>3주</td><td>여정 5단계 중 빈 단계 글 2편</td><td>단계별 짧은 클립(4초) 시리즈 3개, 릴스·쇼츠 주 1회 업로드 루틴</td></tr>
+      <tr><td>4주</td><td>재진단 + 인용된 문장 기록(프롬프트 ⑫)</td><td>영상 설명란에 인용된 문장을 그대로 반복해 일관성 강화</td></tr>
+    </table>
+  </div>
+
+  <h3>이미지·영상이 GEO에서 하는 일: 세 층 구조에 대입하기</h3>
+  <table>
+    <tr><th>층</th><th>AI가 보는 것</th><th>이미지·영상이 기여하는 방식</th><th>오늘 만드는 것</th></tr>
+    <tr><td><b>1층 접근</b></td><td>글자로 존재하는가</td><td>사진 자체는 안 읽힘. <b>대체 텍스트·캡션·자막 파일</b>이 글자로 존재해야 함</td><td>이미지마다 대체 텍스트 1줄, 영상 자막 켜기</td></tr>
+    <tr><td><b>2층 이해</b></td><td>정의문·구조·채널 일치</td><td>모든 채널의 대표 사진이 같은 가게, 같은 로고, 같은 톤이면 AI가 '같은 업체'로 묶기 쉬움</td><td>로고 재료(@)를 넣은 통일 이미지 3컷</td></tr>
+    <tr><td><b>3층 신뢰</b></td><td>숫자·사례·제3자</td><td>손님이 AI 답변을 확인하러 왔을 때 <b>실제 현장·실제 사람</b>이 보이면 리뷰·재방문으로 이어지고, 그 리뷰가 다시 AI의 제3자 근거가 됨</td><td>실제 사진을 재료로 쓴 15초 소개 영상</td></tr>
+  </table>
+  <div class="callout bad"><b class="h">하지 말 것</b> 우리 가게가 아닌 'AI가 지어낸 예쁜 가게'를 대표 사진으로 쓰지 않습니다. 손님이 와서 다르면 리뷰가 나빠지고, 그 리뷰가 AI 신뢰 점수를 깎습니다. 그래서 이 교안은 <b>내 실제 사진을 재료로 넣고 배경·조명만 정리</b>하는 방식을 씁니다. 음식 사진은 실제 메뉴와 다른 음식이 나오지 않도록 재료 사진을 반드시 넣습니다.</div>
+</div></section>
+
+<!-- ================= 3 브리프 ================= -->
+<section id="brief"><div class="wrap">
+  <div class="part"><div class="t">모듈 3 · 15분</div><h2>내 가게 제작 브리프: 8칸 채우면 모든 프롬프트가 내 것으로 바뀝니다</h2><p>브리프는 '무엇을, 누구에게, 어떤 느낌으로 만들지'를 한 장에 적은 제작 기획서입니다. 아래에 입력하면 이 페이지의 모든 <span class="var" style="color:var(--green);font-weight:700">[초록 칸]</span>이 자동으로 치환됩니다. 브라우저를 닫아도 이 컴퓨터에는 저장됩니다.</p></div>
+
+  <div class="fill" id="fill">
+    <div class="grid">
+      <div><label>상호 (플레이스와 글자 단위로 동일하게)</label><input id="f-name" placeholder="예) OO반찬"></div>
+      <div><label>동네·가까운 역·도보 시간</label><input id="f-area" placeholder="예) 군포 산본역 3번 출구 도보 5분"></div>
+      <div><label>업종 (손님이 부르는 말로)</label><input id="f-biz" placeholder="예) 반찬가게 / 세무사 사무소 / 민감성 피부 선크림 브랜드"></div>
+      <div><label>주요 손님 (누구를 위한 곳인지)</label><input id="f-who" placeholder="예) 맞벌이 가정과 부모님 반찬을 찾는 40대"></div>
+      <div><label>강점 한 가지 (사실로 증명 가능한 것)</label><input id="f-edge" placeholder="예) 매일 아침 6시 그날 팔 반찬만 조리, 국내산 재료 90%"></div>
+      <div><label>숫자 3개 (개업 연도, 건수, 가격대 등)</label><input id="f-nums" placeholder="예) 2021년 개업, 하루 22가지, 3팩 1만 원"></div>
+      <div><label>대표 상품·메뉴·서비스 1개 (영상의 주인공)</label><input id="f-hero" placeholder="예) 저염 진미채 / 첫 부가세 신고 상담 / 수분 릴리프 선크림"></div>
+      <div><label>연락처·영업시간</label><input id="f-contact" placeholder="예) 031-000-0000, 매일 07:00~20:00 (일 휴무)"></div>
+      <div><label>느낌(톤) 하나 고르기</label><select id="f-tone"><option value="따뜻하고 정직한 동네 가게 느낌, 자연광, 사진풍">따뜻·정직 (동네 가게)</option><option value="깔끔하고 신뢰감 있는 전문가 느낌, 밝은 사무실 조명, 사진풍">깔끔·신뢰 (전문직·사무소)</option><option value="미니멀하고 청결한 브랜드 느낌, 부드러운 스튜디오 조명, 제품 사진풍">미니멀·청결 (온라인 브랜드)</option><option value="활기차고 친근한 느낌, 밝은 색감, 사진풍">활기·친근 (카페·체험)</option></select></div>
+      <div><label>브랜드 색 (있으면, 없으면 비움)</label><input id="f-color" placeholder="예) 짙은 초록과 크림색"></div>
+    </div>
+    <div class="bar2">
+      <button class="fbtn violet" id="apply">이 페이지 전체에 적용</button>
+      <button class="fbtn gray" id="sample">예시(OO반찬)로 채우기</button>
+      <button class="fbtn gray" id="clear">비우기</button>
+      <span id="fillmsg"></span>
+    </div>
+  </div>
+
+  <h3>브리프에서 나오는 정의문 (모든 이미지·영상의 뿌리)</h3>
+  <div class="prompt light"><span class="lab">우리 가게 한 줄 정의문 (자동 조합)</span><button class="copy" data-copy="defline">복사</button><span id="defline"><span class="var" data-k="name">[상호]</span>는 <span class="var" data-k="area">[동네]</span>에서 <span class="var" data-k="who">[주요 손님]</span>에게 <span class="var" data-k="hero">[대표 상품]</span>을(를) 제공하는 <span class="var" data-k="biz">[업종]</span>입니다. <span class="var" data-k="edge">[강점]</span>. <span class="var" data-k="nums">[숫자 3개]</span>. (2026년 9월 기준)</span></div>
+  <div class="callout good"><b class="h">이 문장이 오늘 어디에 쓰이나</b> ① 에이전트 지침(Agent Instructions)에 넣어 모든 기획의 기준 ② 이미지 대체 텍스트의 첫 조각 ③ 영상 마지막 자막 ④ 유튜브 설명란 마지막 문단 ⑤ 인스타 캡션 마지막 줄. 다섯 곳이 같은 말을 하게 만드는 것이 GEO의 핵심입니다.</div>
+</div></section>
+
+<!-- ================= 4 Flow 준비 ================= -->
+<section id="flow"><div class="wrap">
+  <div class="part"><div class="t">모듈 4 · 20분</div><h2>Google Flow 준비: 접속, 요금, 화면, 모델 (2026년 9월 21일 기준)</h2><p>영상 도구를 처음 여는 분을 기준으로 씁니다. 화면 이름은 영어로 뜨는 경우가 많아 영어와 한국어를 같이 적었습니다.</p></div>
+
+  <div class="callout warn"><b class="h">2026년 5월 이전 자료를 보신 분께</b> 유튜브나 옛 교안에 나오는 <b>Whisk, ImageFX</b>는 2026년 2월 25일부터 Flow 하나로 합쳐졌습니다. 또 예전에는 "영상은 유료만"이었지만, <b>지금은 무료 계정도 하루 50크레딧으로 짧은 영상을 만들 수 있습니다.</b> 이 교안은 그 무료 크레딧 안에서 완주하도록 설계했습니다.</div>
+
+  <h3>요금과 크레딧: 오늘 실습에 필요한 만큼만</h3>
+  <table>
+    <tr><th>구분</th><th>무료</th><th>Google AI Plus</th><th>Google AI Pro</th><th>Google AI Ultra</th></tr>
+    <tr><td>월 요금(달러 기준)</td><td>0</td><td>약 4.99</td><td>약 19.99</td><td>약 99.99~199.99</td></tr>
+    <tr><td>크레딧</td><td>하루 50</td><td>하루 50 + 월 200</td><td>하루 50 + 월 1,000</td><td>하루 50 + 월 10,000~25,000</td></tr>
+    <tr><td>이미지 생성(기본 모델)</td><td>0크레딧</td><td>0크레딧</td><td>0크레딧</td><td>0크레딧</td></tr>
+    <tr><td>영상 6초 1개(Veo 3.1 Lite)</td><td>10크레딧</td><td>10크레딧</td><td>10크레딧</td><td>5크레딧</td></tr>
+    <tr><td>에이전트 대화</td><td>0크레딧(하루 횟수 제한)</td><td colspan="3">0크레딧(하루 횟수 제한)</td></tr>
+    <tr><td>1080p 업스케일</td><td>불가</td><td colspan="3">무료 (4K는 Ultra만, 50크레딧)</td></tr>
+  </table>
+  <p style="font-size:14px;color:var(--sub)">출처: Google Flow 도움말 '크레딧 관리'·'모델과 지원 기능'(2026-09 확인). 한국 결제 금액은 결제 화면 기준. 하루 크레딧은 첫 사용 시 채워지고 이월되지 않습니다.</p>
+  <div class="callout good"><b class="h">오늘 크레딧 계산</b> 이미지 3컷 = 0크레딧. 6초 클립 3개(Lite) = 30크레딧. 실패해서 1개 다시 만들 여유 = 10크레딧. 합계 40크레딧으로 무료 50 안에 들어옵니다. 그래서 오늘은 <b>Lite 모델만</b> 쓰고, Quality(100크레딧)는 누르지 않습니다.</div>
+
+  <h3>Flow 안의 모델 6종: 이름 대신 '언제 쓰나'만 기억</h3>
+  <table>
+    <tr><th>모델 이름(화면 표기)</th><th>하는 일</th><th>크레딧</th><th>오늘 쓰나</th></tr>
+    <tr><td>Nano Banana 2 Lite</td><td>이미지 생성·편집, 기본값</td><td>0</td><td><b>씀</b> (이미지 3컷)</td></tr>
+    <tr><td>Nano Banana 2</td><td>이미지, 더 빠르고 고품질</td><td>소량</td><td>선택</td></tr>
+    <tr><td>Nano Banana Pro</td><td>복잡한 디자인, <b>한글 글자</b>가 들어간 이미지에 강함</td><td>소량(Ultra 기본값)</td><td>선택 (간판·배너 만들 때)</td></tr>
+    <tr><td>Veo 3.1 - Lite</td><td>영상 4·6·8초. 이미지→영상(Frames), 재료→영상, 연장(Extend) 모두 지원</td><td>10</td><td><b>씀</b> (클립 3개)</td></tr>
+    <tr><td>Veo 3.1 - Fast / Quality</td><td>Fast는 20크레딧, Quality는 8초만 100크레딧. 연장 미지원</td><td>20 / 100</td><td>안 씀</td></tr>
+    <tr><td>Gemini Omni Flash 1.1</td><td>대화하며 영상 만들고 고침. 4~10초, 720p 7~15크레딧, 360p 초안 4~7크레딧, 기존 영상 편집 40크레딧</td><td>4~40</td><td>선택 (시연)</td></tr>
+  </table>
+  <div class="def"><b>Lite / Fast / Quality가 뭔가요</b> 같은 Veo 3.1 엔진의 '속도·화질 등급'입니다. Lite는 값싸고 빠르며 SNS용 세로 영상엔 충분합니다. Quality는 화질이 높지만 8초 고정에 100크레딧이라 무료 하루치의 두 배입니다.</div>
+
+  <div class="prac"><div class="num">실습<small>4-1</small></div><div><h3>접속하고 프로젝트 만들기</h3><div class="goal">flow.google.com에 들어가 우리 가게 이름의 프로젝트를 만들고 화면 위치를 익힙니다.</div></div><span class="time">10분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>크롬 브라우저 주소창에 flow.google.com</b> (PC 권장, 에이전트는 PC 전용)</div><h4>구글 계정으로 로그인</h4><p>18세 이상 계정이어야 합니다. 개인 계정이 편합니다. 회사 워크스페이스 계정은 관리자가 Flow를 켜 둔 경우에만 됩니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>첫 화면 → 'New project'(새 프로젝트)</b></div><h4>프로젝트 이름: "<span class="var" data-k="name">[상호]</span>_소개영상_2026-09"</h4><p>"가게명_용도_연월" 규칙으로 정하면 나중에 찾기 쉽습니다. 프로젝트 안에 이미지·영상·에이전트 대화가 함께 저장됩니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>프로젝트 안 화면</b></div><h4>세 곳만 찾습니다: 하단 프롬프트 박스, 가운데 캔버스, 프롬프트 박스 안의 Agent 버튼</h4>
+      <div class="flowui">
+        <div class="top"><span class="tab on">OO반찬_소개영상_2026-09</span><span class="tab">Library(라이브러리)</span><span class="tab">Collections(컬렉션)</span><span class="tab">Tools(도구)</span></div>
+        <div class="canvas"><div>가운데 캔버스<br>만든 이미지·영상이 여기 보임</div><div>클릭하면 크게 보기·편집·다운로드</div><div>드래그해서 프롬프트 박스로 끌어오면 '재료'가 됨</div></div>
+        <div class="pbox">
+          <div class="row"><span class="chip">Image(이미지)</span><span class="chip">Video(영상)</span><span class="chip">Frames(프레임)</span><span class="chip">Ingredients(재료)</span><span class="chip on">Agent(에이전트)</span></div>
+          <div class="input">여기에 글로 지시를 씁니다. @를 치면 올린 사진을 불러올 수 있습니다.</div>
+          <div class="row" style="margin-top:6px"><span class="chip">모델: Nano Banana 2 Lite ▾</span><span class="chip">비율 9:16 ▾</span><span class="chip">개수 2 ▾</span><span class="chip amber">Generate(생성)</span><span class="chip">⚙ Settings</span><span class="chip">📎 Agent Instructions</span></div>
+        </div>
+      </div>
+      <p class="check">확인: 프롬프트 박스에서 'Agent' 글자를 찾았다. 모델 선택 메뉴를 열어 'Nano Banana 2 Lite'가 기본인 것을 봤다.</p></div></div>
+    <div class="step"><div class="n">4</div><div><div class="where">어디서 <b>프롬프트 박스 아래 ⚙ Settings(설정)</b></div><h4>크레딧 보호 설정 두 가지를 먼저 켭니다</h4><p>① <b>Confirm before generating(생성 전 확인): Always(항상)</b>. 에이전트가 영상을 마음대로 만들어 크레딧을 쓰지 않도록 매번 나에게 묻게 합니다. ② <b>Default video settings(기본 영상 설정)</b>에서 모델을 Veo 3.1 - Lite, 방향을 세로(9:16), 개수를 1로 둡니다.</p><p class="check">확인: 설정 저장 후 프롬프트 박스에 '9:16 · Lite'가 보인다</p></div></div>
+    <div class="step"><div class="n">5</div><div><div class="where">어디서 <b>프롬프트 박스 옆 업로드(＋ 또는 📎) → 내 컴퓨터</b></div><h4>가게 사진 3장과 로고를 올립니다 (재료 준비)</h4><div class="term"><b>재료(Ingredients)</b> 내 사진을 AI에게 "이걸 기준으로 만들어"라고 주는 것. 올린 뒤 프롬프트에서 @를 치면 이름이 뜹니다. 올린 사진 이름을 '외관', '대표메뉴', '사장님', '로고'처럼 바꿔 두면 @로 부를 때 편합니다.</div><p class="check">확인: @를 쳤을 때 올린 사진 4개가 목록에 뜬다</p></div></div>
+  </div>
+</div></section>
+
+<!-- ================= 5 에이전트 기획 ================= -->
+<section id="agent"><div class="wrap">
+  <div class="part"><div class="t">모듈 5 · 30분</div><h2>Flow 에이전트로 기획하기: 모를 때는 만들지 말고 먼저 물어본다</h2><p>영상 기획을 해 본 적 없어도 됩니다. 에이전트에게 우리 가게 정의문을 주고 "무엇을 어떤 순서로 만들지" 짜게 한 뒤, 사람은 고르기만 합니다. 대화는 크레딧을 쓰지 않으니 마음껏 물어보세요.</p></div>
+
+  <div class="callout agent"><b class="h">에이전트가 하는 일 5가지 (구글 공식 도움말 기준, 2026-09)</b>
+  ① <b>브레인스토밍·기획</b>: 스토리보드 짜기, 무드보드(느낌 모음) 만들기, 막연한 생각을 실행 가능한 프롬프트로 바꾸기. ② <b>생성</b>: 이미지·영상을 대신 만들어 줌(모델 선택 가능). ③ <b>편집</b>: 캔버스에서 고른 이미지를 "배경만 밝게"처럼 말로 고침. ④ <b>여러 버전 한 번에</b>: 같은 장면을 3가지 스타일로. ⑤ <b>정리</b>: 파일 이름 바꾸기, 컬렉션으로 묶기, 안 쓰는 것 지우기. 대화 내용은 프로젝트별 '세션'으로 자동 저장됩니다.</div>
+
+  <div class="prac"><div class="num v">실습<small>5-1</small></div><div><h3>에이전트 켜고, 지침(Agent Instructions)에 우리 가게 정의문 넣기</h3><div class="goal">한 번 넣어 두면 이 프로젝트의 모든 대화에서 에이전트가 우리 가게를 기억합니다.</div></div><span class="time">8분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>프롬프트 박스 → 'Agent' 클릭</b></div><h4>에이전트를 켭니다. 프롬프트 박스 모양이 대화창으로 바뀝니다</h4><p>오른쪽에 대화 패널이 열립니다. 좁으면 패널의 '펼치기(Expand)' 아이콘을 누릅니다. 끄려면 Agent를 다시 누릅니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>프롬프트 박스 맨 아래 'Agent Instructions'(에이전트 지침) 아이콘</b></div><h4>참조 이미지로 로고를 올리고, 아래 지침을 붙여넣고 Done</h4><div class="term"><b>Agent Instructions란</b> 에이전트에게 주는 '숨은 브리프'. 매번 설명하지 않아도 이 프로젝트에서는 항상 이 규칙을 지키게 합니다. 예: 우리 가게 정의문, 톤, 하지 말 것.</div></div></div>
+  </div>
+  <div class="prompt"><span class="lab"><span class="kit-num v">A1</span>에이전트 지침 (Agent Instructions에 붙여넣기)</span><button class="copy" data-copy="pA1">복사</button><span id="pA1">너는 소상공인 홍보 콘텐츠를 기획하고 만드는 조수야. 이 프로젝트의 주인공은 아래 가게야. 모든 이미지와 영상은 이 가게를 위한 것이고, 아래 사실과 다르게 지어내지 마.
+
+가게 정의문: <span class="var" data-k="name">[상호]</span>는 <span class="var" data-k="area">[동네]</span>에서 <span class="var" data-k="who">[주요 손님]</span>에게 <span class="var" data-k="hero">[대표 상품]</span>을(를) 제공하는 <span class="var" data-k="biz">[업종]</span>이다. 강점: <span class="var" data-k="edge">[강점]</span>. 숫자: <span class="var" data-k="nums">[숫자 3개]</span>.
+느낌(톤): <span class="var" data-k="tone">[톤]</span>. 브랜드 색: <span class="var" data-k="color">[브랜드 색]</span>.
+참조 이미지의 로고를 화면에 넣을 때는 형태와 색을 바꾸지 마.
+
+규칙:
+1. 나는 영상 제작 초보야. 전문 용어를 쓰면 괄호 안에 쉬운 말로 풀어서 써.
+2. 이미지나 영상을 만들기 전에 반드시 "이렇게 만들까요? 크레딧 N 소모" 하고 먼저 물어봐.
+3. 영상은 Veo 3.1 - Lite, 세로 9:16, 6초를 기본으로 해. Quality 모델은 내가 말하기 전에는 쓰지 마.
+4. 사람 얼굴, 실제 메뉴, 간판은 내가 올린 사진(@재료)을 기준으로 하고 새로 지어내지 마.
+5. 한글 글자를 이미지 안에 넣어야 하면 Nano Banana Pro를 추천하고, 아니면 자막으로 처리하자고 제안해.
+6. 화장품·식품·의료 관련 과장 표현("완벽, 기적, 치료, 100%")은 어떤 문구에도 쓰지 마.</span></div>
+
+  <div class="prac"><div class="num v">실습<small>5-2</small></div><div><h3>에이전트와 함께 15초 영상 기획서(스토리보드 3컷) 뽑기</h3><div class="goal">무엇을 찍을지 모르는 상태에서 시작해 '컷 3개 + 각 컷의 이미지 프롬프트 + 움직임 프롬프트 + 자막'까지 받습니다.</div></div><span class="time">15분</span></div>
+  <div class="feel"><b>체감 포인트</b> "뭘 만들어야 할지 모르겠다"가 10분 만에 '컷 3개 표'로 바뀝니다. 그리고 표에 있는 프롬프트를 그대로 복사해서 쓰면 됩니다. 기획을 못 해서 영상을 못 만들던 문제가 여기서 풀립니다.</div>
+
+  <div class="prompt"><span class="lab"><span class="kit-num v">A2</span>기획 요청 (에이전트 대화창에 붙여넣기 · 모듈 2 플랜에서 고른 제작물 이름을 넣습니다)</span><button class="copy" data-copy="pA2">복사</button><span id="pA2">우리 가게 15초 세로 소개 영상을 기획해줘. 용도: 네이버 플레이스·인스타 릴스·유튜브 쇼츠에 올려서, AI 검색에서 우리를 본 손님이 확인하러 왔을 때 "진짜 이런 가게구나" 하고 믿게 만드는 것.
+
+조건:
+- 6초 클립 3개를 이어 붙여 15초 안팎. 각 클립은 정지 이미지 1장에서 출발(Frames 방식).
+- 컷 1: 첫 1초 안에 무엇을 파는 가게인지 보이게. 컷 2: 만드는 과정이나 상담 장면(사람 손이 보이게). 컷 3: 가게 외관 또는 대표 상품과 정의문 자막.
+- 내가 올린 @외관, @대표메뉴, @사장님, @로고 사진을 재료로 쓰는 것을 전제로 해.
+- 아직 아무것도 만들지 마. 먼저 아래 표만 만들어줘.
+
+표 형식(컷별로):
+① 장면 설명(한 줄, 쉬운 말) ② 이미지 프롬프트(한국어, 주체·배경·조명·스타일·구도·비율 순서) ③ 영상 움직임 프롬프트(카메라 움직임을 반드시 명시, 6초) ④ 이 컷의 자막 한 줄(15자 이내) ⑤ 이 컷 이미지의 대체 텍스트(alt) 한 줄 ⑥ 예상 크레딧
+표 아래에 "초보자가 여기서 흔히 실패하는 점 3가지"도 적어줘.</span></div>
+
+  <div class="screen"><div class="bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">flow.google.com — OO반찬_소개영상_2026-09 · Agent</span></div>
+  <div class="body chat">
+    <div class="msg user"><div class="who">나</div><div class="bubble">(A2 붙여넣기)</div></div>
+    <div class="msg ag"><div class="who">Ag</div><div class="bubble">지침의 정의문을 기준으로 3컷 기획안을 만들었습니다. 아직 생성하지 않았습니다.
+    <table style="font-size:13px;margin:8px 0">
+      <tr><th>컷</th><th>장면</th><th>이미지 프롬프트</th><th>움직임(6초)</th><th>자막</th><th>alt</th><th>크레딧</th></tr>
+      <tr><td>1</td><td>진열대 가득한 반찬, 아침</td><td>@대표메뉴 를 중심으로 반찬 진열대 클로즈업, 따뜻한 아침 자연광, 사진풍, 세로 9:16</td><td>카메라가 오른쪽으로 천천히 이동(팬), 김이 살짝 피어오름, 6초</td><td>매일 아침 6시 조리</td><td>OO반찬 아침 진열대의 국내산 재료 반찬 22가지</td><td>이미지 0 / 영상 10</td></tr>
+      <tr><td>2</td><td>손으로 진미채 무치는 장면</td><td>@사장님 의 손이 스테인리스 볼에서 진미채를 버무리는 모습, 위에서 본 시점, 부드러운 조명, 사진풍, 9:16</td><td>고정 카메라, 손이 천천히 움직임, 6초</td><td>국내산 재료 90%</td><td>OO반찬 대표가 저염 진미채를 손으로 무치는 장면</td><td>0 / 10</td></tr>
+      <tr><td>3</td><td>가게 외관과 로고</td><td>@외관 사진 기준, 저녁 조명 켜진 간판, @로고 를 간판에 자연스럽게, 사진풍, 9:16</td><td>카메라가 천천히 줌인, 6초</td><td>산본역 3번 출구 도보 5분</td><td>산본역 3번 출구 근처 OO반찬 외관과 간판</td><td>0 / 10</td></tr>
+    </table>
+    초보자가 흔히 실패하는 점: ① 카메라 움직임을 안 적어 AI가 제멋대로 움직임 ② 한 컷에 두 가지 동작을 넣어 어색해짐 ③ 자막을 이미지 안에 그려 넣어 글자가 깨짐(자막은 편집에서 얹기). 이대로 컷 1 이미지부터 만들까요? (0크레딧)</div></div>
+  </div>
+  <div class="cap"><b>여기서 사람이 할 일</b> 표를 읽고 우리 가게와 다른 부분만 고칩니다. "컷 2는 진미채가 아니라 멸치볶음으로", "자막에 숫자 넣어줘"처럼 말로 고치면 표가 다시 나옵니다. 마음에 들면 "좋아, 표를 '기획안_v1'로 저장해줘"라고 합니다.</div></div>
+
+  <div class="agentbox">
+    <div class="t"><span class="pill v">막힐 때 쓰는 에이전트 질문 8가지</span><h4>모르면 만들지 말고 이렇게 물어보세요 (전부 0크레딧)</h4></div>
+    <table>
+      <tr><th style="width:38%">상황</th><th>그대로 붙여넣는 말</th></tr>
+      <tr><td>화면의 버튼이 뭔지 모르겠다</td><td>"지금 프롬프트 박스에 있는 Frames, Ingredients, Extend가 각각 뭔지 초보자 말로 한 줄씩 설명해줘. 우리 소개 영상에는 뭘 써야 해?"</td></tr>
+      <tr><td>내 가게에 어떤 장면이 어울릴지 모르겠다</td><td>"우리 가게 정의문 기준으로 손님이 확인하고 싶어 할 장면 10개를 뽑고, 그중 사진 없이도 만들 수 있는 것과 내 사진이 꼭 필요한 것으로 나눠줘."</td></tr>
+      <tr><td>프롬프트를 어떻게 써야 할지 모르겠다</td><td>"'반찬 진열대 예쁘게'를 주체·배경·조명·스타일·구도·비율 6요소가 다 들어간 프롬프트로 바꿔줘. 요소마다 왜 넣었는지 한 줄씩."</td></tr>
+      <tr><td>결과가 이상하게 나왔다</td><td>"방금 만든 이미지에서 우리 정의문과 안 맞는 점을 찾아줘(예: 없는 메뉴, 다른 간판). 고칠 프롬프트도 써줘."</td></tr>
+      <tr><td>여러 느낌 중 못 고르겠다</td><td>"컷 1을 사진풍·일러스트풍·미니멀 세 가지로 한 번에 만들어줘. 각각 0크레딧이면 바로 진행해."</td></tr>
+      <tr><td>영상이 마음대로 움직인다</td><td>"이 움직임 프롬프트에 카메라 움직임(팬·틸트·줌·고정)과 주체 속도가 빠져 있으면 채워줘. 6초 안에 동작은 하나만."</td></tr>
+      <tr><td>크레딧이 얼마나 남았는지, 얼마나 들지 모르겠다</td><td>"지금까지 이 프로젝트에서 쓴 크레딧과, 남은 계획(클립 3개 Lite)을 끝내는 데 필요한 크레딧을 알려줘."</td></tr>
+      <tr><td>만든 것이 너무 많아 어수선하다</td><td>"오늘 만든 결과물 중 최종본 3개를 '최종_2026-09' 컬렉션으로 묶고, 파일 이름을 '컷번호_내용'으로 바꿔줘. 나머지는 지우지 말고 '보류'로 묶어."</td></tr>
+    </table>
+    <div class="callout note" style="margin-bottom:0"><b class="h">에이전트와 일하는 원칙 3가지</b> ① <b>첫 문장에 맥락</b>: 무엇을, 누구에게, 어떤 톤으로. 지침에 넣어 두면 매번 안 써도 됩니다. ② <b>만들기 전에 표부터</b>: "아직 만들지 마, 표만"이라고 하면 크레딧이 안 나갑니다. ③ <b>최종 결정은 사람</b>: 에이전트 제안 중 우리 가게 사실과 다른 것은 반드시 고칩니다. 지어낸 메뉴·숫자는 GEO 신뢰를 깎습니다.</div>
+  </div>
+</div></section>
+
+<!-- ================= 6 이미지 ================= -->
+<section id="image"><div class="wrap">
+  <div class="part"><div class="t">모듈 6 · 40분</div><h2>이미지 3컷 만들기 (0크레딧): 내 사진을 재료로, 배경과 빛만 정리</h2><p>모듈 5의 기획 표에 나온 프롬프트를 그대로 씁니다. 에이전트에게 시켜도 되고, 직접 프롬프트 박스에 넣어도 됩니다. 두 방법 다 적었습니다.</p></div>
+
+  <h3>이미지 프롬프트 6요소 (쉬운 말 버전)</h3>
+  <table>
+    <tr><th>요소</th><th>뜻</th><th>반찬가게 예</th><th>세무사 예</th><th>화장품 예</th></tr>
+    <tr><td>주체</td><td>무엇/누구를</td><td>@대표메뉴 반찬 진열대</td><td>@사장님 이 상담 테이블에서 서류를 설명</td><td>@제품 선크림 튜브</td></tr>
+    <tr><td>배경</td><td>어디서</td><td>가게 안 진열대 앞</td><td>밝은 사무실 창가</td><td>흰 대리석 위, 물방울</td></tr>
+    <tr><td>조명·분위기</td><td>빛의 느낌</td><td>아침 자연광, 따뜻함</td><td>부드러운 낮 조명, 차분함</td><td>스튜디오 조명, 청결함</td></tr>
+    <tr><td>스타일</td><td>사진인지 그림인지</td><td>사진풍(실사)</td><td>사진풍</td><td>제품 사진풍</td></tr>
+    <tr><td>구도</td><td>어디서 본 시점</td><td>클로즈업</td><td>허리 위 정면</td><td>45도 위에서</td></tr>
+    <tr><td>비율</td><td>화면 모양</td><td>9:16 세로</td><td>9:16 세로</td><td>9:16 세로</td></tr>
+  </table>
+  <div class="def"><b>사진풍(photorealistic)</b> "진짜 사진처럼"이라는 뜻. 안 적으면 그림체로 나올 수 있습니다. 소상공인 대표 이미지는 거의 항상 사진풍입니다.</div>
+
+  <div class="prac"><div class="num">실습<small>6-1</small></div><div><h3>컷 1 이미지 생성: 대표 상품이 주인공</h3><div class="goal">내 대표 상품 사진을 재료로 넣고, 배경과 조명만 정리한 세로 이미지를 만듭니다.</div></div><span class="time">12분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>프롬프트 박스 → 'Image' 선택 → 모델 'Nano Banana 2 Lite' → 비율 9:16 → 개수 2</b></div><h4>모드와 모델을 확인합니다</h4><p>에이전트가 켜져 있으면 "컷 1 이미지를 기획표대로 만들어줘. 2장"이라고만 해도 됩니다. 직접 할 때는 Agent를 끄고 아래 프롬프트를 씁니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>프롬프트 박스에 @ 입력 → '대표메뉴' 선택 → 이어서 글 입력</b></div><h4>재료를 부르고 프롬프트를 붙여넣은 뒤 Generate</h4><p>@로 부른 사진이 프롬프트 박스에 작은 썸네일로 붙으면 성공입니다. 10~30초 뒤 이미지 2장이 캔버스에 뜹니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>캔버스의 이미지 클릭 → 크게 보기</b></div><h4>세 가지를 검사합니다: 우리 메뉴가 맞나, 글자가 깨졌나, 손가락·그릇이 이상한가</h4><p>하나라도 걸리면 버리지 말고 다음 실습 6-2에서 부분만 고칩니다.</p><p class="check">확인: 마음에 드는 1장에 이름 '컷1_진열대'를 붙였다</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab"><span class="kit-num">I1</span>컷 1 이미지 프롬프트 (@대표메뉴 를 먼저 부른 뒤 붙여넣기)</span><button class="copy" data-copy="pI1">복사</button><span id="pI1">@대표메뉴 사진 속 <span class="var" data-k="hero">[대표 상품]</span>을(를) 그대로 유지한 채, <span class="var" data-k="name">[상호]</span>의 매장 안에서 손님 눈높이로 본 클로즈업. <span class="var" data-k="tone">[톤]</span>. 배경은 살짝 흐리게, 상품에 초점. 화면 안에 글자나 로고를 새로 그리지 마. 세로 9:16.</span></div>
+
+  <div class="prac"><div class="num">실습<small>6-2</small></div><div><h3>부분만 고치기: 올가미(Lasso)와 그리기(Draw)</h3><div class="goal">전체를 다시 만들지 않고 이상한 부분만 말로 고칩니다. 원본은 히스토리에 남습니다.</div></div><span class="time">8분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>이미지 위에 마우스 → 'Edit'(편집)</b></div><h4>편집 화면에 들어가 Lasso(올가미)를 고릅니다</h4><div class="term"><b>올가미(Lasso)</b> 마우스로 동그랗게 그려 '이 부분만'을 지정하는 도구. <b>그리기(Draw)</b>는 바꾸고 싶은 자리에 직접 표시를 하는 도구. <b>히스토리(History)</b>는 고치기 전 단계로 되돌리는 목록.</div></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>이상한 부분을 올가미로 감싼 뒤 아래 입력창</b></div><h4>"이 그릇을 흰 도자기 접시로 바꿔줘" / "이 글자를 지워줘" / "이 부분을 자연스럽게 채워줘"</h4><p>한 번에 한 가지만 시킵니다. 두 가지를 섞으면 둘 다 어정쩡하게 됩니다.</p><p class="check">확인: History에서 원본과 수정본을 번갈아 봤다</p></div></div>
+  </div>
+
+  <div class="prac"><div class="num">실습<small>6-3</small></div><div><h3>컷 2·3 이미지 생성 + 한글 간판이 필요할 때</h3><div class="goal">같은 방법으로 두 컷을 더 만들고, 글자가 꼭 필요한 컷만 Nano Banana Pro를 씁니다.</div></div><span class="time">12분</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">I2</span>컷 2 · 만드는 과정 (@사장님 을 먼저 부른 뒤)</span><button class="copy" data-copy="pI2">복사</button><span id="pI2">@사장님 의 손이 <span class="var" data-k="hero">[대표 상품]</span>을(를) 준비하는 장면. 얼굴은 화면 위쪽에서 살짝만 보이거나 보이지 않게, 손과 재료가 주인공. 위에서 본 시점. <span class="var" data-k="tone">[톤]</span>. 사진풍. 손가락 5개, 자연스러운 손 모양. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">I3</span>컷 3 · 외관과 로고 (@외관 과 @로고 를 먼저 부른 뒤)</span><button class="copy" data-copy="pI3">복사</button><span id="pI3">@외관 사진의 건물과 간판 위치를 그대로 유지하고, @로고 를 간판에 실제로 인쇄된 것처럼 자연스럽게 배치. 저녁 무렵 간판 조명이 켜진 따뜻한 분위기, 사진풍, 정면에서 약간 아래에서 올려다본 구도. 로고 색과 형태를 바꾸지 마. 세로 9:16.</span></div>
+  <div class="callout warn"><b class="h">한글 글자가 이미지 안에 꼭 들어가야 한다면</b> 일반 모델은 한글을 깨뜨립니다. 모델 메뉴에서 <b>Nano Banana Pro</b>를 고르고 프롬프트에 "간판에 '<span class="var" data-k="name">[상호]</span>' 글자를 정확히 그대로"라고 따옴표로 적습니다. 그래도 글자가 틀리면 세 번까지만 시도하고, 글자는 영상 편집 단계의 <b>자막</b>으로 넘깁니다. 자막은 글자가 절대 깨지지 않고, AI도 자막 텍스트를 읽습니다.</div>
+
+  <div class="prac"><div class="num">실습<small>6-4</small></div><div><h3>다운로드 + 대체 텍스트(alt) 3줄 작성 → 플레이스·인스타에 등록</h3><div class="goal">이미지가 GEO에 기여하려면 글자가 붙어야 합니다. 이미지 1장당 대체 텍스트 1줄을 지금 씁니다.</div></div><span class="time">8분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>이미지 크게 보기 → 다운로드 아이콘</b></div><h4>3장을 내려받고 파일 이름을 '<span class="var" data-k="name">[상호]</span>_컷1_진열대.jpg'처럼 바꿉니다</h4><p>파일 이름도 검색엔진이 읽습니다. 'IMG_2031.jpg'는 아무 정보가 없습니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>아래 프롬프트 → ChatGPT 또는 Flow 에이전트</b></div><h4>대체 텍스트 3줄을 받습니다</h4></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>네이버 스마트플레이스 → 사진 관리 / 인스타 게시 → 고급 설정 → 대체 텍스트 / 홈페이지 이미지 alt 칸</b></div><h4>사진을 올리면서 대체 텍스트를 붙입니다</h4><p>네이버 플레이스는 대체 텍스트 칸이 없으면 사진 설명(캡션)에 같은 문장을 씁니다.</p><p class="check">확인: 3장 모두 '상호 + 장면 + 정의문 조각'이 든 설명이 붙었다</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab"><span class="kit-num">I4</span>대체 텍스트 3줄 (에이전트 또는 ChatGPT)</span><button class="copy" data-copy="pI4">복사</button><span id="pI4">아래 세 이미지의 대체 텍스트(alt)를 각각 한 줄(40자 이내)로 써줘. 형식: "[상호] + 무엇이 보이는지 + 정의문의 사실 조각 하나". 형용사·이모지 금지, 사실만.
+가게 정의문: <span class="var" data-k="name">[상호]</span>는 <span class="var" data-k="area">[동네]</span>에서 <span class="var" data-k="who">[주요 손님]</span>에게 <span class="var" data-k="hero">[대표 상품]</span>을(를) 제공하는 <span class="var" data-k="biz">[업종]</span>. 강점: <span class="var" data-k="edge">[강점]</span>.
+이미지 1: 대표 상품 진열 클로즈업
+이미지 2: 대표가 손으로 준비하는 과정
+이미지 3: 가게 외관과 간판</span></div>
+  <div class="ba">
+    <div class="b"><div class="lab">BEFORE · 대체 텍스트 없음</div><p>파일명 IMG_2031.jpg, alt 비어 있음. AI가 읽는 정보: 0.</p></div>
+    <div class="a"><div class="lab">AFTER</div><p>파일명 OO반찬_컷1_진열대.jpg<br>alt: "OO반찬 아침 진열대, 매일 6시 조리한 국내산 재료 반찬 22가지"</p><p>AI가 읽는 정보: 상호·장면·강점·숫자.</p></div>
+  </div>
+</div></section>
+
+<!-- ================= 7 영상 ================= -->
+<section id="video"><div class="wrap">
+  <div class="part"><div class="t">모듈 7 · 45분</div><h2>영상 만들기: 이미지 3장 → 6초 클립 3개 → 15초 영상</h2><p>가장 실패가 적은 방법인 '프레임(Frames)' 방식만 씁니다. 잘 만든 이미지에 움직임만 살짝 얹는 것이라, 결과가 예측 가능하고 크레딧이 적게 듭니다.</p></div>
+
+  <h3>영상 프롬프트 = 이미지 프롬프트 + 움직임 + 카메라 + 시간</h3>
+  <div class="def"><b>카메라 움직임 용어 5개</b> <b>고정</b>(카메라 안 움직임, 주체만 움직임) · <b>팬</b>(좌우로 고개 돌리듯) · <b>틸트</b>(위아래로) · <b>줌인/줌아웃</b>(가까이/멀리) · <b>트래킹</b>(주체를 따라 이동). 안 적으면 AI가 마음대로 움직입니다. 초보자는 <b>고정</b> 또는 <b>천천히 줌인</b> 두 개만 써도 충분합니다.</div>
+  <table>
+    <tr><th>잘 되는 움직임 (Lite로도 OK)</th><th>아직 어려운 것 (피하기)</th></tr>
+    <tr><td>김·연기·물·불빛 같은 자연 요소, 카메라 천천히 이동, 손의 단순 동작(무치기·따르기·넘기기), 문 열림, 조명 켜짐</td><td>사람 둘이 대화·악수, 글자·숫자·로고가 정확히 유지되는 것, 10초 넘는 긴 동작, 빠른 동작</td></tr>
+  </table>
+
+  <div class="prac"><div class="num">실습<small>7-1</small></div><div><h3>컷 1을 6초 클립으로 (Veo 3.1 - Lite, 10크레딧)</h3><div class="goal">이미지를 시작 프레임으로 놓고 움직임을 얹습니다. 생성에 1~5분 걸립니다.</div></div><span class="time">12분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>프롬프트 박스 → 'Video' → 'Frames' 선택</b></div><h4>모델 'Veo 3.1 - Lite', 방향 세로 9:16, 길이 6초, 개수 1을 확인합니다</h4><div class="term"><b>시작 프레임(Start Frame)</b> 영상의 첫 장면으로 쓸 이미지. <b>끝 프레임(End Frame)</b>은 선택 사항으로, 넣으면 시작→끝으로 변하는 영상이 됩니다. 오늘은 시작 프레임만 씁니다.</div></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>캔버스의 '컷1_진열대' 이미지를 프롬프트 박스의 Start Frame 칸으로 드래그</b></div><h4>이미지를 시작 프레임에 넣습니다</h4><p>드래그가 어려우면 이미지 클릭 → 메뉴에서 'Use as start frame'(시작 프레임으로 사용)을 누릅니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>프롬프트 박스</b></div><h4>움직임 프롬프트를 넣고 Generate. '생성 전 확인' 창이 뜨면 크레딧 10을 확인하고 승인</h4><p class="check">확인: 1~5분 뒤 6초 클립이 캔버스에 뜨고 재생된다. 크레딧 잔량이 10 줄었다.</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab"><span class="kit-num">V1</span>컷 1 움직임 프롬프트 (시작 프레임 = 컷1 이미지)</span><button class="copy" data-copy="pV1">복사</button><span id="pV1">시작 이미지의 구도와 상품을 그대로 유지. 카메라가 오른쪽으로 아주 천천히 이동(팬)하며 <span class="var" data-k="hero">[대표 상품]</span> 위로 부드러운 아침 빛이 스침. 다른 동작 없음. 매장 안의 잔잔한 배경 소리. 6초.</span></div>
+
+  <div class="callout note"><b class="h">소리에 대해</b> Veo 3.1은 장면에 맞는 배경음(매장 소음, 지글거림)을 함께 만듭니다. 원치 않으면 프롬프트에 "소리 없음"이라고 적습니다. 목소리 나레이션은 시키지 않습니다. 사람 말소리는 아직 어색하게 나오는 경우가 많아, 말은 자막으로 처리합니다.</div>
+
+  <div class="prac"><div class="num">실습<small>7-2</small></div><div><h3>컷 2·3 클립 만들기 (20크레딧)</h3><div class="goal">같은 순서로 두 클립을 더 만듭니다. 생성을 기다리는 동안 다음 클립을 준비하면 시간이 절약됩니다.</div></div><span class="time">15분</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">V2</span>컷 2 움직임 (시작 프레임 = 컷2 이미지)</span><button class="copy" data-copy="pV2">복사</button><span id="pV2">카메라 고정. 시작 이미지 속 손이 <span class="var" data-k="hero">[대표 상품]</span>을(를) 천천히 다루는 동작 하나만(버무리기 또는 담기 또는 서류를 넘기기). 손 모양 자연스럽게, 손가락 5개 유지. 조명 변화 없음. 6초.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">V3</span>컷 3 움직임 (시작 프레임 = 컷3 이미지)</span><button class="copy" data-copy="pV3">복사</button><span id="pV3">시작 이미지의 외관과 간판을 그대로 유지. 카메라가 간판을 향해 아주 천천히 줌인. 간판 조명이 은은하게 켜지고 로고 형태는 변하지 않음. 저녁 거리의 잔잔한 소리. 6초.</span></div>
+  <div class="callout bad"><b class="h">간판 글자가 클립에서 흔들리면</b> AI 영상은 글자·로고 유지가 약합니다. 흔들리면 그 컷은 줌인 대신 <b>"카메라 고정, 간판 조명만 켜짐"</b>으로 다시 만듭니다(10크레딧). 그래도 안 되면 컷 3은 영상 대신 정지 이미지 6초로 두고 자막만 얹습니다. 정지 컷도 훌륭한 마무리입니다.</div>
+
+  <div class="prac"><div class="num">실습<small>7-3</small></div><div><h3>연장(Extend)과 대화형 편집(Omni) 맛보기 · 선택</h3><div class="goal">클립이 짧다고 느끼면 Lite의 Extend로 이어 붙이고, 구독자는 Omni로 말하면서 고쳐 봅니다.</div></div><span class="time">시연 5분</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>클립 선택 → 'Extend'(연장)</b> · Veo 3.1 Lite와 Omni는 지원, Fast·Quality는 미지원</div><h4>"그리고 손이 들어와 접시를 천천히 든다"처럼 '다음에 일어날 일' 한 가지를 적고 생성</h4><p>연장분은 원래 클립 끝에 자연스럽게 이어집니다. 크레딧은 새 클립과 같이 듭니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>모델 메뉴 → 'Gemini Omni Flash 1.1'</b> (영상 편집 40크레딧, 새 영상 360p 초안 4~7크레딧)</div><h4>대화로 고치기: "배경을 조금 더 흐리게" → "조명을 더 따뜻하게" → "방금 것 유지하고 김만 더"</h4><div class="term"><b>Omni와 Veo의 차이</b> Veo는 한 번 만들고 마음에 안 들면 처음부터 다시 만듭니다. Omni는 이전 결과를 기억하고 그 위에 고칩니다. 대신 편집 1회가 40크레딧이라 오늘 무료 계정으로는 시연만 봅니다. 모든 결과물에는 SynthID(보이지 않는 AI 표시)가 자동으로 들어갑니다.</div></div></div>
+  </div>
+
+  <div class="prac"><div class="num">실습<small>7-4</small></div><div><h3>클립 3개 이어 붙이고 자막 얹기 → 15초 완성</h3><div class="goal">이어 붙이기와 자막은 Flow 밖의 익숙한 앱(캡컷·VLLO·유튜브 쇼츠 편집기)에서 합니다. 자막이 GEO의 '글자'입니다.</div></div><span class="time">13분</span></div>
+  <div class="timeline">
+    <div><div class="clip">컷 1<br>0~6초</div><b>자막</b>매일 아침 6시 조리</div>
+    <div><div class="clip">컷 2<br>6~12초</div><b>자막</b>국내산 재료 90%</div>
+    <div><div class="clip">컷 3<br>12~15초(3초로 잘라)</div><b>자막</b>산본역 3번 출구 도보 5분<br>+ 정의문 한 줄</div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>Flow → 클립 3개 각각 다운로드</b> (구독자는 1080p 업스케일 무료)</div><h4>파일 이름을 '<span class="var" data-k="name">[상호]</span>_컷1.mp4' 식으로 바꿉니다</h4></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>스마트폰 캡컷(CapCut) 또는 유튜브 앱 → 쇼츠 만들기 → 업로드</b></div><h4>3개를 순서대로 넣고, 컷 3은 3초로 자릅니다</h4><p>컷 사이 전환 효과는 넣지 않거나 '디졸브' 하나만. 효과가 많으면 촌스럽고 글자 가독성이 떨어집니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>편집 앱의 '텍스트' 또는 '자막' 기능</b></div><h4>컷마다 자막 1줄(15자 이내), 마지막에 정의문 1줄. 화면 아래 1/4 지점, 흰 글자에 검은 테두리</h4><p>자막 글자는 우리가 직접 치는 것이라 절대 깨지지 않습니다. 업로드 후 유튜브의 자동 자막도 켭니다. AI는 자막 텍스트를 읽습니다.</p><p class="check">확인: 15초 세로 영상 1편 저장. 자막 4줄 중 마지막이 정의문.</p></div></div>
+  </div>
+  <div class="callout good"><b class="h">배경음악</b> 편집 앱의 무료 음원을 쓰거나, Flow Music(구글의 음악 도구, 별도 앱)에서 "따뜻한 어쿠스틱, 15초, 가사 없음"으로 만들 수 있습니다. 저작권 표시가 필요한 음원은 피합니다. 음악은 작게, 자막이 주인공입니다.</div>
+</div></section>
+
+<!-- ================= 8 올리기 ================= -->
+<section id="publish"><div class="wrap">
+  <div class="part"><div class="t">모듈 8 · 20분</div><h2>올리기: 영상에 '글자'를 붙여야 GEO가 됩니다</h2><p>영상 파일 자체는 AI가 못 봅니다. 제목·설명란·챕터·캡션·프로필의 글자가 전부입니다. 아래 두 프롬프트로 한 번에 받아서 붙여넣습니다.</p></div>
+
+  <div class="prompt"><span class="lab"><span class="kit-num">P1</span>유튜브 쇼츠 제목·설명란 + 인스타 릴스 캡션 (ChatGPT 또는 에이전트)</span><button class="copy" data-copy="pP1">복사</button><span id="pP1">아래 정보로 15초 소개 영상의 업로드 텍스트를 만들어줘.
+가게 정의문: <span class="var" data-k="name">[상호]</span>는 <span class="var" data-k="area">[동네]</span>에서 <span class="var" data-k="who">[주요 손님]</span>에게 <span class="var" data-k="hero">[대표 상품]</span>을(를) 제공하는 <span class="var" data-k="biz">[업종]</span>. 강점: <span class="var" data-k="edge">[강점]</span>. 숫자: <span class="var" data-k="nums">[숫자 3개]</span>. 연락처·영업시간: <span class="var" data-k="contact">[연락처]</span>.
+영상 자막 순서: (컷1 자막) / (컷2 자막) / (컷3 자막) / 정의문
+
+만들 것:
+1. 유튜브 제목: 손님이 AI에게 물을 법한 질문형 + 괄호 안 상호. 40자 이내. 예) "산본역 근처 반찬가게, 매일 아침 만드는 곳은? (OO반찬)"
+2. 유튜브 설명란: 첫 두 줄에 동네+업종+이 영상이 답하는 것. 그 다음 챕터 타임스탬프 3줄(00:00 / 00:06 / 00:12). 마지막 문단에 정의문 전체와 연락처, "(2026년 9월 기준)".
+3. 인스타 릴스 캡션: 첫 줄에 동네+업종+답. 본문 3줄. 마지막 줄 정의문. 해시태그는 동네+업종 조합 5개만.
+4. 영상 대체 텍스트(인스타 고급 설정용) 1줄.
+금지: 이모지, 엠대시, "최고·완벽·믿을 수 있는" 같은 형용사, 지어낸 숫자.</span></div>
+
+  <div class="ba">
+    <div class="b"><div class="lab">BEFORE</div><p>제목: 우리 가게 영상 올려요~<br>설명: 놀러오세요 ^^ #반찬 #일상</p></div>
+    <div class="a"><div class="lab">AFTER</div><p>제목: 산본역 근처 반찬가게, 매일 아침 만드는 곳은? (OO반찬)<br>설명: 군포 산본 OO반찬입니다. 이 영상은 매일 아침 6시에 그날 팔 반찬만 만드는 과정을 15초로 보여 줍니다.<br>00:00 아침 진열대 / 00:06 손으로 무치는 진미채 / 00:12 가게 위치<br>OO반찬은 군포 산본역 3번 출구 도보 5분에서 맞벌이 가정과 부모님 반찬을 찾는 분께 매일 아침 만든 반찬을 제공하는 반찬가게입니다. 2021년 개업, 하루 22가지, 국내산 재료 90%. 031-000-0000, 매일 07:00~20:00. (2026년 9월 기준)</p></div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>studio.youtube.com → 만들기 → 동영상 업로드 (쇼츠는 세로 영상이면 자동 인식)</b></div><h4>제목·설명란 붙여넣기 → 자막 '자동 생성' 켜기 → 공개</h4><p>공개 후 세부정보 → 자막에서 오타만 고칩니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>인스타그램 → 릴스 → 캡션 · 고급 설정 → 대체 텍스트</b></div><h4>캡션과 대체 텍스트 붙여넣기</h4></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>smartplace.naver.com → 소식(또는 사진·동영상) / business.google.com → 게시물</b></div><h4>같은 영상을 플레이스 소식과 구글 게시물에도 올립니다. 본문은 유튜브 설명란 마지막 문단(정의문)과 동일하게</h4><p class="check">확인: 4곳(유튜브·인스타·네이버·구글)에 같은 정의문이 글자 단위로 동일하게 들어갔다</p></div></div>
+  </div>
+</div></section>
+
+<!-- ================= 마무리 ================= -->
+<section id="finish"><div class="wrap">
+  <div class="kicker">FINISH · 완주 점검표, 재진단, FAQ</div>
+  <h2>오늘 끝나면 손에 남는 것</h2>
+  <ul class="check-list">
+    <li><input type="checkbox"><span>AI 4곳 캡처 4장 + 진단 점수(24점 만점) 기록 (모듈 1)</span></li>
+    <li><input type="checkbox"><span>내 등급의 30일 플랜과 제작물 목록 (모듈 2)</span></li>
+    <li><input type="checkbox"><span>브리프 8칸과 한 줄 정의문 (모듈 3)</span></li>
+    <li><input type="checkbox"><span>Flow 프로젝트 1개, 에이전트 지침 저장, '생성 전 확인: 항상' 설정 (모듈 4·5)</span></li>
+    <li><input type="checkbox"><span>스토리보드 3컷 표 '기획안_v1' (모듈 5)</span></li>
+    <li><input type="checkbox"><span>이미지 3장 + 파일명 + 대체 텍스트 3줄, 플레이스·인스타 등록 (모듈 6)</span></li>
+    <li><input type="checkbox"><span>6초 클립 3개, 15초 세로 영상 1편(자막 4줄, 마지막이 정의문) (모듈 7)</span></li>
+    <li><input type="checkbox"><span>유튜브 제목·설명란·챕터, 인스타 캡션·대체 텍스트, 플레이스·구글 게시물 (모듈 8)</span></li>
+    <li><input type="checkbox"><span>사용 크레딧 40 안팎, 남은 크레딧으로 실패 컷 1개 재생성 (모듈 7)</span></li>
+  </ul>
+
+  <div class="hw"><b class="h">30일 뒤 재진단</b>
+    <ol style="margin-bottom:0">
+      <li>모듈 1의 질문 ①②를 같은 AI 4곳에 다시 넣고 점수를 적습니다. 캡처 4장을 오늘 것과 나란히 둡니다.</li>
+      <li>유튜브 스튜디오 → 분석 → '트래픽 소스'에서 'Google 검색'과 'YouTube 검색' 유입이 생겼는지 봅니다.</li>
+      <li>AI 답변에 우리 문장이 인용됐다면 그 문장을 그대로 기록하고, 다음 영상 자막과 설명란에 같은 문장을 반복합니다.</li>
+      <li>플랜의 다음 주차 제작물(Q&amp;A 영상, 사례 영상)을 같은 순서(에이전트 기획 → 이미지 → Frames → 자막)로 만듭니다. 두 번째부터는 90분이면 됩니다.</li>
+    </ol>
+  </div>
+
+  <h3>자주 막히는 곳 FAQ</h3>
+  <details><summary>Flow 화면이 영어로만 나옵니다.</summary><p>정상입니다. 프롬프트는 한국어로 써도 되고, 버튼 이름은 이 교안의 괄호 표기(예: Frames(프레임))로 찾으면 됩니다. 크롬의 '번역' 기능을 켜면 메뉴가 한국어로 보이지만 가끔 버튼이 깨지니 막히면 끄세요.</p></details>
+  <details><summary>Agent 버튼이 안 보입니다.</summary><p>에이전트는 웹·PC 전용입니다. 스마트폰 앱에서는 없습니다. PC 크롬에서 flow.google.com을 열고 프로젝트 안으로 들어간 뒤 프롬프트 박스를 보세요. 그래도 없으면 계정이 18세 이상 개인 계정인지 확인합니다.</p></details>
+  <details><summary>에이전트가 자꾸 영상을 만들려고 해서 크레딧이 걱정됩니다.</summary><p>설정(⚙)에서 '생성 전 확인: 항상'을 켜면 매번 승인 창이 뜹니다. 그리고 대화 첫 줄에 "아직 만들지 마, 표만"이라고 쓰세요. 에이전트 대화 자체는 크레딧을 쓰지 않습니다(하루 질문 횟수 제한만 있음).</p></details>
+  <details><summary>크레딧이 50밖에 없는데 부족합니다.</summary><p>오늘 설계는 40크레딧입니다. 초과했다면 Fast나 Quality 모델을 눌렀거나 개수를 2 이상으로 둔 것입니다. 모델을 Lite, 개수를 1로 확인하세요. 크레딧은 다음 날 다시 50이 됩니다. 두 번째 클립부터는 내일 이어서 해도 프로젝트에 다 저장돼 있습니다.</p></details>
+  <details><summary>내 메뉴 사진을 넣었는데 다른 음식이 나옵니다.</summary><p>@재료를 부르지 않고 글로만 설명한 경우입니다. 프롬프트 박스에 @를 치고 목록에서 사진을 고른 뒤, 프롬프트 첫머리에 "@대표메뉴 사진 속 음식을 그대로 유지한 채"라고 적으세요. 그래도 다르면 에이전트에게 "방금 이미지에서 정의문과 다른 점 찾아줘"라고 물어보세요.</p></details>
+  <details><summary>한글 간판 글자가 깨집니다.</summary><p>모델을 Nano Banana Pro로 바꾸고 글자를 따옴표 안에 정확히 적습니다. 세 번 시도해도 안 되면 글자는 자막으로 옮깁니다. AI 영상에서 글자·로고는 아직 가장 약한 부분이고, 자막은 AI가 읽는 글자이기도 해서 GEO에는 오히려 유리합니다.</p></details>
+  <details><summary>영상이 제멋대로 움직이거나 손가락이 6개입니다.</summary><p>움직임 프롬프트에 카메라 움직임(고정·팬·줌)과 "동작 하나만"이 있는지 확인하세요. 손은 "손가락 5개, 자연스러운 손 모양"을 이미지 단계부터 적고, 손이 크게 나오는 장면은 위에서 본 시점으로 바꾸면 실패가 줄어듭니다. 실패 컷은 10크레딧으로 한 번만 재시도하고, 안 되면 정지 이미지로 둡니다.</p></details>
+  <details><summary>이 영상이 AI로 만든 것이라고 표시되나요?</summary><p>Flow 결과물에는 SynthID라는 보이지 않는 표시가 들어갑니다. 유튜브 업로드 시 '변형 또는 합성 콘텐츠' 항목에 정직하게 체크하는 것을 권합니다. 실제 사진을 재료로 쓴 '연출 이미지'라는 점은 손님에게 숨길 이유가 없고, 지어낸 메뉴·가짜 리뷰만 아니면 GEO 신뢰에도 문제없습니다.</p></details>
+  <details><summary>Whisk나 ImageFX로 배운 적이 있는데 다시 배워야 하나요?</summary><p>아닙니다. 2026년 2월부터 두 도구가 Flow 안으로 합쳐졌습니다. 이미지 만들기(Nano Banana)와 부분 편집은 같은 방식이고, 기존 프로젝트는 Flow 라이브러리로 옮길 수 있습니다.</p></details>
+  <details><summary>이미 만들어 둔 사진·영상 파일은 어디에 있나요?</summary><p>Flow 프로젝트 안 라이브러리(Library)와 컬렉션(Collections)에 자동 저장됩니다. 프로젝트를 지우지 않는 한 남아 있고, 다른 프로젝트에서도 @로 불러 쓸 수 있습니다. 에이전트에게 "최종본을 '최종_2026-09' 컬렉션으로 묶어줘"라고 하면 정리됩니다.</p></details>
+
+  <h3>용어 사전 (가나다순)</h3>
+  <table>
+    <tr><th style="width:26%">용어</th><th>뜻</th></tr>
+    <tr><td>Agent Instructions(에이전트 지침)</td><td>프로젝트 전체에 적용되는 에이전트 규칙. 참조 이미지와 글로 지정. 프롬프트 박스 아래 아이콘.</td></tr>
+    <tr><td>Collections(컬렉션)</td><td>만든 이미지·영상을 주제별로 묶는 폴더.</td></tr>
+    <tr><td>Extend(연장)</td><td>클립 끝에 "다음에 일어날 일"을 적어 영상을 이어 붙이는 기능. Lite와 Omni 지원.</td></tr>
+    <tr><td>Frames(프레임)</td><td>이미지를 시작(과 끝) 장면으로 놓고 움직임을 만드는 영상 방식.</td></tr>
+    <tr><td>Ingredients(재료)</td><td>내 사진·로고를 올려 생성의 기준으로 삼는 기능. @로 호출.</td></tr>
+    <tr><td>Lasso(올가미) / Draw(그리기)</td><td>이미지의 일부만 골라 말로 고치는 편집 도구.</td></tr>
+    <tr><td>Nano Banana 2 Lite / 2 / Pro</td><td>Flow의 이미지 모델 3종. Lite는 무료 기본, Pro는 한글 글자·복잡한 디자인용.</td></tr>
+    <tr><td>Veo 3.1 Lite / Fast / Quality</td><td>Flow의 영상 모델 등급. 크레딧 10 / 20 / 100. 오늘은 Lite.</td></tr>
+    <tr><td>Gemini Omni Flash 1.1</td><td>대화하며 만들고 고치는 영상 모델. 4~10초. 편집 40크레딧.</td></tr>
+    <tr><td>SynthID</td><td>AI 생성물에 자동으로 들어가는 보이지 않는 표시.</td></tr>
+    <tr><td>Tools(도구)</td><td>말로 만드는 맞춤 도구(자동 리사이즈 등). 남이 만든 것은 무료 사용, 제작은 구독자.</td></tr>
+    <tr><td>대체 텍스트(alt)</td><td>이미지에 붙는 보이지 않는 설명 글. AI와 검색엔진이 읽음.</td></tr>
+    <tr><td>정의문</td><td>"[상호]는 [어디]에서 [누구]에게 [무엇]을 하는 [업종]입니다" 꼴의 첫 문장. GEO의 뿌리.</td></tr>
+    <tr><td>크레딧</td><td>Flow 사용권. 무료 하루 50. 이미지 기본 모델 0, 영상 Lite 6초 10.</td></tr>
+    <tr><td>팬 / 틸트 / 줌 / 고정 / 트래킹</td><td>카메라 움직임 용어. 좌우 / 상하 / 가까이·멀리 / 안 움직임 / 따라가기.</td></tr>
+  </table>
+
+  <h3>출처와 기준일</h3>
+  <ul class="srcs">
+    <li>본 과정 「AI가 내 사업을 정답으로 추천하게 만드는 GEO 실전 교안 v2」(2026-09-19): 진단표 기준(없음·멘션·소스·인용), 3층 구조, 기준 소개문, 실습 1~10 번호 체계.</li>
+    <li>Google Flow 도움말 「Learn about Google Flow models &amp; supported features」(2026-09 확인): Veo 3.1 Lite/Fast/Quality, Gemini Omni Flash 1.1, Nano Banana 2 Lite/2/Pro의 지원 기능·길이·해상도.</li>
+    <li>Google Flow 도움말 「Manage your Google Flow credits」(2026-09 확인): 하루 50크레딧, 플랜별 월 크레딧, 모델별 크레딧, 업스케일 조건.</li>
+    <li>Google Flow 도움말 「Use the Google Flow Agent」(2026-09 확인): Agent 켜기, Agent Instructions, 설정(생성 전 확인, 기본 이미지·영상 설정), 세션, 크레딧 미소모와 일일 한도, 웹·PC 전용.</li>
+    <li>Google 공식 블로그 「Flow updates」(2026-02-25): Whisk·ImageFX 통합, Lasso·Draw·History, Ingredients·@, Collections. 「New agents, mobile apps and Gemini Omni for Google Flow」(2026-05-19): Flow Agent, Flow Tools, Gemini Omni Flash, 모바일 앱, Flow Music.</li>
+    <li>요금(달러)은 2026-09-05 기준 제3자 정리 자료를 참고했으며, 실제 결제 금액은 flow.google.com 결제 화면 기준입니다.</li>
+    <li>프롬프트 구조는 본 과정 「Google Flow 강의교안」(2026-05)의 이미지 6요소·영상 템플릿과 「프롬프트 가이드」(Contact Sheet, Scene Sequence, Single Image) 3종을 소상공인 눈높이로 단순화했습니다.</li>
+  </ul>
+</div></section>
+
+<footer><div class="wrap">
+  <p><b>GEO × Google Flow 소상공인 실습 교안</b> · 2026년 9월 21일 기준 · Flow 화면·요금은 자주 바뀝니다. 수업 전 flow.google.com과 도움말에서 재확인하세요.</p>
+  <p style="margin-top:8px">이 페이지의 입력값(브리프·진단)은 이 컴퓨터의 브라우저에만 저장되며 외부로 전송되지 않습니다.</p>
+</div></footer>
+
+<div class="toast" id="toast">복사됐습니다</div>
+
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s);};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+  var toast=$('#toast');
+  function say(m){toast.textContent=m;toast.classList.add('on');setTimeout(function(){toast.classList.remove('on');},1400);}
+  function store(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function load(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+
+  /* ---------- 복사 ---------- */
+  $$('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var el=document.getElementById(b.getAttribute('data-copy'));
+      var t=el?el.innerText:'';
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){say('복사됐습니다');},function(){fallback(t);});}
+      else fallback(t);
+    });
+  });
+  function fallback(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');say('복사됐습니다');}catch(e){say('복사 실패: 직접 드래그해 주세요');}document.body.removeChild(ta);}
+
+  /* ---------- 브리프 자동 치환 ---------- */
+  var fields={name:'f-name',area:'f-area',biz:'f-biz',who:'f-who',edge:'f-edge',nums:'f-nums',hero:'f-hero',contact:'f-contact',tone:'f-tone',color:'f-color'};
+  var defaults={};
+  $$('.var').forEach(function(v){defaults[v.getAttribute('data-k')]=defaults[v.getAttribute('data-k')]||{};});
+  $$('.var').forEach(function(v){if(!v.getAttribute('data-def'))v.setAttribute('data-def',v.textContent);});
+  function apply(){
+    var vals={};
+    Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);vals[k]=el?el.value.trim():'';});
+    store('geoflow_brief',JSON.stringify(vals));
+    var n=0;
+    $$('.var').forEach(function(v){
+      var k=v.getAttribute('data-k');
+      if(vals[k]){v.textContent=vals[k];v.classList.add('filled');n++;}
+      else{v.textContent=v.getAttribute('data-def');v.classList.remove('filled');}
+    });
+    var msg=$('#fillmsg');if(msg)msg.textContent=n?('적용됨: '+n+'곳 치환'):'입력값이 비어 있습니다';
+  }
+  var ap=$('#apply');if(ap)ap.addEventListener('click',function(){apply();say('페이지 전체에 적용했습니다');});
+  var sm=$('#sample');if(sm)sm.addEventListener('click',function(){
+    var s={name:'OO반찬',area:'군포 산본역 3번 출구 도보 5분',biz:'반찬가게',who:'맞벌이 가정과 부모님 반찬을 찾는 40대',edge:'매일 아침 6시에 그날 팔 반찬만 조리, 국내산 재료 90%',nums:'2021년 개업, 하루 22가지, 3팩 1만 원',hero:'저염 진미채',contact:'031-000-0000, 매일 07:00~20:00 (일 휴무)',color:'짙은 초록과 크림색'};
+    Object.keys(s).forEach(function(k){var el=document.getElementById(fields[k]);if(el)el.value=s[k];});
+    var t=document.getElementById('f-tone');if(t)t.selectedIndex=0;
+    apply();say('예시로 채웠습니다');
+  });
+  var cl=$('#clear');if(cl)cl.addEventListener('click',function(){Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);if(el&&el.tagName!=='SELECT')el.value='';});apply();});
+  var saved=load('geoflow_brief');
+  if(saved){try{var o=JSON.parse(saved);Object.keys(o).forEach(function(k){var el=document.getElementById(fields[k]);if(el&&o[k])el.value=o[k];});apply();}catch(e){}}
+
+  /* ---------- 진단 채점 ---------- */
+  var ais=$$('#diagtool select.ai'), chs=$$('#diagtool input.ch');
+  function grade(){
+    var a=0;ais.forEach(function(s){a+=parseInt(s.value,10)||0;});
+    var b=0;chs.forEach(function(c){if(c.checked)b+=parseInt(c.getAttribute('data-w'),10)||1;});
+    var total=a+b; /* 최대 12 + 12 = 24 */
+    $('#score').textContent=total;
+    $('#bar').style.width=Math.round(total/24*100)+'%';
+    var g=$('#grade'),v=$('#verdict');
+    var planKey;
+    if(total<=7){g.textContent='출발 전 · 플랜 A';g.style.background='var(--red-bg)';g.style.color='var(--red)';planKey='A';
+      v.textContent='AI가 읽을 글자가 거의 없는 상태입니다. 정의문과 채널 통일이 먼저이고, 오늘은 그 정의문을 증명할 대표 이미지 3컷과 15초 소개 영상을 만듭니다.';}
+    else if(total<=15){g.textContent='읽히는 중 · 플랜 B';g.style.background='var(--amber-bg)';g.style.color='var(--amber-d)';planKey='B';
+      v.textContent='글자는 있지만 구조(FAQ)와 사람(대표 프로필)이 부족합니다. 오늘은 손님 질문 3개에 답하는 이미지와 Q&A 영상을 만듭니다.';}
+    else{g.textContent='인용 직전 · 플랜 C';g.style.background='var(--green-bg)';g.style.color='var(--green)';planKey='C';
+      v.textContent='기본은 갖춰졌습니다. 남이 우리를 말해 주는 자리(매체·리뷰)와 영상 채널을 늘릴 단계입니다. 오늘은 기고·사례용 이미지와 사례 영상을 만듭니다.';}
+    ['A','B','C'].forEach(function(k){var p=document.getElementById('plan'+k);if(p){if(k===planKey)p.classList.remove('hidden');else p.classList.add('hidden');}});
+    store('geoflow_diag',JSON.stringify({a:ais.map(function(s){return s.value;}),b:chs.map(function(c){return c.checked;})}));
+  }
+  ais.forEach(function(s){s.addEventListener('change',grade);});
+  chs.forEach(function(c){c.addEventListener('change',grade);});
+  var sd=load('geoflow_diag');
+  if(sd){try{var d=JSON.parse(sd);ais.forEach(function(s,i){if(d.a&&d.a[i]!=null)s.value=d.a[i];});chs.forEach(function(c,i){if(d.b&&d.b[i]!=null)c.checked=d.b[i];});}catch(e){}}
+  grade();
+  var sv=$('#saveDiag');if(sv)sv.addEventListener('click',function(){
+    var names=['ChatGPT','Gemini','네이버 AI','구글 AI 오버뷰'],lv=['없음','멘션','소스','인용'];
+    var line='GEO 진단 '+new Date().toISOString().slice(0,10)+' · '+ais.map(function(s,i){return names[i]+': '+lv[parseInt(s.value,10)];}).join(' / ')+' · 채널 점검 '+chs.filter(function(c){return c.checked;}).length+'/10 · 총점 '+$('#score').textContent+'/24 · '+$('#grade').textContent;
+    fallback(line);
+  });
+  var rs=$('#resetDiag');if(rs)rs.addEventListener('click',function(){ais.forEach(function(s){s.value='0';});chs.forEach(function(c){c.checked=false;});grade();});
+})();
+</script>
+</body>
+</html>
