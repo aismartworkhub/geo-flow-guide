@@ -235,6 +235,15 @@
   .timeline div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;}
   .timeline b{display:block;color:var(--teal);font-size:13px;margin-bottom:4px;}
   .timeline .clip{aspect-ratio:9/16;max-height:120px;background:linear-gradient(160deg,#243342,#3c5a6b);border-radius:8px;margin-bottom:8px;display:grid;place-items:center;color:#cfe;font-size:12px;text-align:center;padding:6px;}
+  /* 실습 이미지 키트 */
+  .kitgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 6px;}
+  @media(max-width:760px){.kitgrid{grid-template-columns:1fr 1fr;}}
+  .kitgrid a{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13.5px;}
+  .kitgrid img{width:100%;aspect-ratio:4/5;object-fit:cover;background:#f3f5f7;display:block;}
+  .kitgrid img.sq{aspect-ratio:1;object-fit:contain;padding:10px;}
+  .kitgrid span{display:block;padding:8px 10px;}
+  .kitgrid b{display:block;color:var(--teal);font-size:12px;}
+  .kitgrid a:hover{border-color:var(--teal-m);}
   /* FAQ */
   details{background:#fff;border:1px solid var(--line);border-radius:12px;margin:8px 0;}
   summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none;}
@@ -270,6 +279,8 @@
     <a href="#agent">5 에이전트 기획</a>
     <a href="#image">6 이미지</a>
     <a href="#video">7 영상</a>
+    <a href="#assets">실습 이미지</a>
+    <a href="#kit">키트</a>
     <a href="#publish">8 올리기</a>
     <a href="#finish">점검·FAQ</a>
   </div>
@@ -527,7 +538,7 @@
       </div>
       <p class="check">확인: 프롬프트 박스에서 'Agent' 글자를 찾았다. 모델 선택 메뉴를 열어 'Nano Banana 2 Lite'가 기본인 것을 봤다.</p></div></div>
     <div class="step"><div class="n">4</div><div><div class="where">어디서 <b>프롬프트 박스 아래 ⚙ Settings(설정)</b></div><h4>크레딧 보호 설정 두 가지를 먼저 켭니다</h4><p>① <b>Confirm before generating(생성 전 확인): Always(항상)</b>. 에이전트가 영상을 마음대로 만들어 크레딧을 쓰지 않도록 매번 나에게 묻게 합니다. ② <b>Default video settings(기본 영상 설정)</b>에서 모델을 Veo 3.1 - Lite, 방향을 세로(9:16), 개수를 1로 둡니다.</p><p class="check">확인: 설정 저장 후 프롬프트 박스에 '9:16 · Lite'가 보인다</p></div></div>
-    <div class="step"><div class="n">5</div><div><div class="where">어디서 <b>프롬프트 박스 옆 업로드(＋ 또는 📎) → 내 컴퓨터</b></div><h4>가게 사진 3장과 로고를 올립니다 (재료 준비)</h4><div class="term"><b>재료(Ingredients)</b> 내 사진을 AI에게 "이걸 기준으로 만들어"라고 주는 것. 올린 뒤 프롬프트에서 @를 치면 이름이 뜹니다. 올린 사진 이름을 '외관', '대표메뉴', '사장님', '로고'처럼 바꿔 두면 @로 부를 때 편합니다.</div><p class="check">확인: @를 쳤을 때 올린 사진 4개가 목록에 뜬다</p></div></div>
+    <div class="step"><div class="n">5</div><div><div class="where">어디서 <b>프롬프트 박스 옆 업로드(＋ 또는 📎) → 내 컴퓨터</b></div><h4>가게 사진 3장과 로고를 올립니다 (재료 준비)</h4><div class="term"><b>재료(Ingredients)</b> 내 사진을 AI에게 "이걸 기준으로 만들어"라고 주는 것. 올린 뒤 프롬프트에서 @를 치면 이름이 뜹니다. 올린 사진 이름을 '외관', '대표메뉴', '사장님', '로고'처럼 바꿔 두면 @로 부를 때 편합니다.</div><p>내 사진이 아직 없으면 <a href="#assets">실습 이미지 키트</a>의 예시 이미지를 내려받아 올립니다.</p><p class="check">확인: @를 쳤을 때 올린 사진 4개가 목록에 뜬다</p></div></div>
   </div>
 </div></section>
 
@@ -557,6 +568,20 @@
 5. 한글 글자를 이미지 안에 넣어야 하면 Nano Banana Pro를 추천하고, 아니면 자막으로 처리하자고 제안해.
 6. 화장품·식품·의료 관련 과장 표현("완벽, 기적, 치료, 100%")은 어떤 문구에도 쓰지 마.</span></div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · OO반찬 · Agent Instructions에 그대로 붙여넣기</span><button class="copy" data-copy="exA1">복사</button><span id="exA1">너는 소상공인 홍보 콘텐츠를 기획하고 만드는 조수야. 이 프로젝트의 주인공은 아래 가게야. 모든 이미지와 영상은 이 가게를 위한 것이고, 아래 사실과 다르게 지어내지 마.
+
+가게 정의문: OO반찬은 군포 산본역 3번 출구 도보 5분에서 맞벌이 가정과 부모님 반찬을 찾는 40대에게 저염 진미채를 비롯해 매일 아침 만든 반찬을 제공하는 반찬가게다. 강점: 매일 아침 6시에 그날 팔 반찬만 조리, 국내산 재료 90%. 숫자: 2021년 개업, 하루 22가지, 3팩 1만 원.
+느낌(톤): 따뜻하고 정직한 동네 가게 느낌, 자연광, 사진풍. 브랜드 색: 짙은 초록과 크림색.
+참조 이미지의 로고를 화면에 넣을 때는 형태와 색을 바꾸지 마.
+
+규칙:
+1. 나는 영상 제작 초보야. 전문 용어를 쓰면 괄호 안에 쉬운 말로 풀어서 써.
+2. 이미지나 영상을 만들기 전에 반드시 "이렇게 만들까요? 크레딧 N 소모" 하고 먼저 물어봐.
+3. 영상은 Veo 3.1 - Lite, 세로 9:16, 6초를 기본으로 해. Quality 모델은 내가 말하기 전에는 쓰지 마.
+4. 사람 얼굴, 실제 메뉴, 간판은 내가 올린 사진(@외관, @대표메뉴, @사장님, @로고)을 기준으로 하고 새로 지어내지 마.
+5. 한글 글자를 이미지 안에 넣어야 하면 Nano Banana Pro를 추천하고, 아니면 자막으로 처리하자고 제안해.
+6. 식품 관련 과장 표현("최고, 완벽, 100% 무첨가, 건강에 좋은")은 어떤 문구에도 쓰지 마.</span></div>
   <div class="prac"><div class="num v">실습<small>5-2</small></div><div><h3>에이전트와 함께 15초 영상 기획서(스토리보드 3컷) 뽑기</h3><div class="goal">무엇을 찍을지 모르는 상태에서 시작해 '컷 3개 + 각 컷의 이미지 프롬프트 + 움직임 프롬프트 + 자막'까지 받습니다.</div></div><span class="time">15분</span></div>
   <div class="feel"><b>체감 포인트</b> "뭘 만들어야 할지 모르겠다"가 10분 만에 '컷 3개 표'로 바뀝니다. 그리고 표에 있는 프롬프트를 그대로 복사해서 쓰면 됩니다. 기획을 못 해서 영상을 못 만들던 문제가 여기서 풀립니다.</div>
 
@@ -586,6 +611,21 @@
   </div>
   <div class="cap"><b>여기서 사람이 할 일</b> 표를 읽고 우리 가게와 다른 부분만 고칩니다. "컷 2는 진미채가 아니라 멸치볶음으로", "자막에 숫자 넣어줘"처럼 말로 고치면 표가 다시 나옵니다. 마음에 들면 "좋아, 표를 '기획안_v1'로 저장해줘"라고 합니다.</div></div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · OO반찬 · 에이전트 대화창에 첫 메시지로 붙여넣기</span><button class="copy" data-copy="exA2">복사</button><span id="exA2">OO반찬의 15초 세로 소개 영상을 기획해줘. 용도: 네이버 플레이스 소식, 인스타 릴스, 유튜브 쇼츠. AI 검색에서 우리를 본 손님이 확인하러 왔을 때 "진짜 이런 가게구나" 하고 믿게 만드는 것이 목표야.
+
+조건:
+- 6초 클립 3개를 이어 붙여 15초 안팎. 각 클립은 정지 이미지 1장에서 출발(Frames 방식).
+- 컷 1: 첫 1초 안에 반찬가게인 것이 보이게(진열대와 저염 진미채). 컷 2: 사장님 손이 진미채를 무치는 과정. 컷 3: 가게 외관과 간판, 정의문 자막.
+- 내가 올린 @외관, @대표메뉴, @사장님, @로고 사진을 재료로 쓰는 것을 전제로 해.
+- 아직 아무것도 만들지 마. 먼저 아래 표만 만들어줘.
+
+표 형식(컷별로):
+① 장면 설명(한 줄, 쉬운 말) ② 이미지 프롬프트(한국어, 주체·배경·조명·스타일·구도·비율 순서) ③ 영상 움직임 프롬프트(카메라 움직임을 반드시 명시, 6초) ④ 이 컷의 자막 한 줄(15자 이내) ⑤ 이 컷 이미지의 대체 텍스트(alt) 한 줄 ⑥ 예상 크레딧
+표 아래에 "초보자가 여기서 흔히 실패하는 점 3가지"도 적어줘.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>이어서 보내는 후속 메시지 3개 · 한 줄씩 따로 보내기</span><button class="copy" data-copy="exA3">복사</button><span id="exA3">컷 2는 진미채 대신 멸치볶음을 볶는 장면으로 바꿔줘. 나머지는 그대로.
+자막마다 숫자를 하나씩 넣어줘. 쓸 수 있는 숫자: 2021년 개업, 하루 22가지, 국내산 90%, 3팩 1만 원.
+좋아. 이 표를 '기획안_v1'이라는 이름으로 저장하고, 컷 1 이미지를 Nano Banana 2 Lite, 세로 9:16, 2장으로 만들어줘. @대표메뉴 재료를 써. 만들기 전에 크레딧을 알려줘.</span></div>
   <div class="agentbox">
     <div class="t"><span class="pill v">막힐 때 쓰는 에이전트 질문 8가지</span><h4>모르면 만들지 말고 이렇게 물어보세요 (전부 0크레딧)</h4></div>
     <table>
@@ -627,17 +667,32 @@
   </div>
   <div class="prompt"><span class="lab"><span class="kit-num">I1</span>컷 1 이미지 프롬프트 (@대표메뉴 를 먼저 부른 뒤 붙여넣기)</span><button class="copy" data-copy="pI1">복사</button><span id="pI1">@대표메뉴 사진 속 <span class="var" data-k="hero">[대표 상품]</span>을(를) 그대로 유지한 채, <span class="var" data-k="name">[상호]</span>의 매장 안에서 손님 눈높이로 본 클로즈업. <span class="var" data-k="tone">[톤]</span>. 배경은 살짝 흐리게, 상품에 초점. 화면 안에 글자나 로고를 새로 그리지 마. 세로 9:16.</span></div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 1 · 한국어 (프롬프트 박스에 @대표메뉴 를 먼저 부른 뒤 붙여넣기)</span><button class="copy" data-copy="exI1">복사</button><span id="exI1">@대표메뉴 사진 속 저염 진미채를 그대로 유지한 채, OO반찬 매장 안 진열대에서 손님 눈높이로 본 클로즈업. 따뜻한 아침 자연광, 사진풍(실사). 배경의 다른 반찬통은 살짝 흐리게, 진미채에 초점. 화면 안에 글자나 로고를 새로 그리지 마. 세로 9:16.</span></div>
+  <div class="prompt en"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 1 · 영어 (결과가 더 안정적일 때가 많음. 둘 중 나은 쪽을 쓰세요)</span><button class="copy" data-copy="exI1en">복사</button><span id="exI1en">@대표메뉴 Keep the exact dish from the reference photo (Korean low-salt seasoned dried squid, jinmichae). Close-up at customer eye level on the display counter inside a small neighborhood side-dish shop, warm morning natural light, photorealistic, shallow depth of field with focus on the dish, other containers softly blurred, no text, no logos, vertical 9:16.</span></div>
   <div class="prac"><div class="num">실습<small>6-2</small></div><div><h3>부분만 고치기: 올가미(Lasso)와 그리기(Draw)</h3><div class="goal">전체를 다시 만들지 않고 이상한 부분만 말로 고칩니다. 원본은 히스토리에 남습니다.</div></div><span class="time">8분</span></div>
   <div class="steps">
     <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>이미지 위에 마우스 → 'Edit'(편집)</b></div><h4>편집 화면에 들어가 Lasso(올가미)를 고릅니다</h4><div class="term"><b>올가미(Lasso)</b> 마우스로 동그랗게 그려 '이 부분만'을 지정하는 도구. <b>그리기(Draw)</b>는 바꾸고 싶은 자리에 직접 표시를 하는 도구. <b>히스토리(History)</b>는 고치기 전 단계로 되돌리는 목록.</div></div></div>
     <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>이상한 부분을 올가미로 감싼 뒤 아래 입력창</b></div><h4>"이 그릇을 흰 도자기 접시로 바꿔줘" / "이 글자를 지워줘" / "이 부분을 자연스럽게 채워줘"</h4><p>한 번에 한 가지만 시킵니다. 두 가지를 섞으면 둘 다 어정쩡하게 됩니다.</p><p class="check">확인: History에서 원본과 수정본을 번갈아 봤다</p></div></div>
   </div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 올가미로 부분을 감싼 뒤 입력창에 한 줄씩 (한 번에 한 가지만)</span><button class="copy" data-copy="exE1">복사</button><span id="exE1">이 그릇을 흰 도자기 접시로 바꿔줘. 음식은 그대로.
+배경에 있는 가격표 종이를 지우고 자연스럽게 채워줘.
+이 손의 손가락 모양을 자연스럽게 고쳐줘. 손가락 5개.
+이 부분의 조명을 조금 더 따뜻하게, 노란빛으로.
+이 반찬통 위에 얇은 김이 살짝 올라오게 해줘.</span></div>
   <div class="prac"><div class="num">실습<small>6-3</small></div><div><h3>컷 2·3 이미지 생성 + 한글 간판이 필요할 때</h3><div class="goal">같은 방법으로 두 컷을 더 만들고, 글자가 꼭 필요한 컷만 Nano Banana Pro를 씁니다.</div></div><span class="time">12분</span></div>
   <div class="prompt"><span class="lab"><span class="kit-num">I2</span>컷 2 · 만드는 과정 (@사장님 을 먼저 부른 뒤)</span><button class="copy" data-copy="pI2">복사</button><span id="pI2">@사장님 의 손이 <span class="var" data-k="hero">[대표 상품]</span>을(를) 준비하는 장면. 얼굴은 화면 위쪽에서 살짝만 보이거나 보이지 않게, 손과 재료가 주인공. 위에서 본 시점. <span class="var" data-k="tone">[톤]</span>. 사진풍. 손가락 5개, 자연스러운 손 모양. 세로 9:16.</span></div>
   <div class="prompt"><span class="lab"><span class="kit-num">I3</span>컷 3 · 외관과 로고 (@외관 과 @로고 를 먼저 부른 뒤)</span><button class="copy" data-copy="pI3">복사</button><span id="pI3">@외관 사진의 건물과 간판 위치를 그대로 유지하고, @로고 를 간판에 실제로 인쇄된 것처럼 자연스럽게 배치. 저녁 무렵 간판 조명이 켜진 따뜻한 분위기, 사진풍, 정면에서 약간 아래에서 올려다본 구도. 로고 색과 형태를 바꾸지 마. 세로 9:16.</span></div>
   <div class="callout warn"><b class="h">한글 글자가 이미지 안에 꼭 들어가야 한다면</b> 일반 모델은 한글을 깨뜨립니다. 모델 메뉴에서 <b>Nano Banana Pro</b>를 고르고 프롬프트에 "간판에 '<span class="var" data-k="name">[상호]</span>' 글자를 정확히 그대로"라고 따옴표로 적습니다. 그래도 글자가 틀리면 세 번까지만 시도하고, 글자는 영상 편집 단계의 <b>자막</b>으로 넘깁니다. 자막은 글자가 절대 깨지지 않고, AI도 자막 텍스트를 읽습니다.</div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 2 · 한국어 (@사장님 을 먼저 부른 뒤)</span><button class="copy" data-copy="exI2">복사</button><span id="exI2">@사장님 의 손이 스테인리스 볼에서 저염 진미채를 손으로 버무리는 장면. 얼굴은 화면 위쪽에서 살짝만 보이거나 보이지 않게, 손과 재료가 주인공. 위에서 내려다본 시점. 따뜻하고 정직한 동네 가게 느낌, 부드러운 자연광, 사진풍. 손가락 5개, 자연스러운 손 모양. 앞치마는 짙은 초록색. 세로 9:16.</span></div>
+  <div class="prompt en"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 2 · 영어</span><button class="copy" data-copy="exI2en">복사</button><span id="exI2en">@사장님 Hands of the shop owner from the reference photo mixing low-salt seasoned dried squid in a stainless steel bowl, top-down view, face barely visible at the top edge or out of frame, hands and ingredients are the subject, warm honest neighborhood-shop mood, soft natural light, photorealistic, natural hands with five fingers, dark green apron, vertical 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 3 · 한국어 (@외관 과 @로고 를 먼저 부른 뒤)</span><button class="copy" data-copy="exI3">복사</button><span id="exI3">@외관 사진의 건물, 문 위치, 간판 위치를 그대로 유지하고, @로고 를 간판에 실제로 인쇄된 것처럼 자연스럽게 배치. 저녁 무렵 간판 조명이 켜진 따뜻한 분위기, 사진풍, 정면에서 약간 아래에서 올려다본 구도. 로고의 색과 형태를 바꾸지 마. 간판에 다른 글자는 추가하지 마. 세로 9:16.</span></div>
+  <div class="prompt en"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 3 · 영어</span><button class="copy" data-copy="exI3en">복사</button><span id="exI3en">@외관 @로고 Keep the building, door and signboard exactly as in the storefront reference photo. Place the logo naturally on the signboard as if printed there, do not change its colors or shape, add no other text. Early evening with the sign lit, warm inviting mood, photorealistic, frontal view from slightly below, vertical 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 한글 간판 글자가 꼭 필요할 때 · 모델을 Nano Banana Pro로 바꾼 뒤</span><button class="copy" data-copy="exI3pro">복사</button><span id="exI3pro">@외관 사진의 간판에 "OO반찬" 이라는 한글 네 글자를 정확히 그대로, 한 글자도 바꾸거나 추가하지 말고 크림색 글자로 넣어줘. 글꼴은 두꺼운 고딕. 나머지는 원본 사진 그대로. 세로 9:16.</span></div>
   <div class="prac"><div class="num">실습<small>6-4</small></div><div><h3>다운로드 + 대체 텍스트(alt) 3줄 작성 → 플레이스·인스타에 등록</h3><div class="goal">이미지가 GEO에 기여하려면 글자가 붙어야 합니다. 이미지 1장당 대체 텍스트 1줄을 지금 씁니다.</div></div><span class="time">8분</span></div>
   <div class="steps">
     <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>이미지 크게 보기 → 다운로드 아이콘</b></div><h4>3장을 내려받고 파일 이름을 '<span class="var" data-k="name">[상호]</span>_컷1_진열대.jpg'처럼 바꿉니다</h4><p>파일 이름도 검색엔진이 읽습니다. 'IMG_2031.jpg'는 아무 정보가 없습니다.</p></div></div>
@@ -649,6 +704,10 @@
 이미지 1: 대표 상품 진열 클로즈업
 이미지 2: 대표가 손으로 준비하는 과정
 이미지 3: 가게 외관과 간판</span></div>
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 대체 텍스트 3줄 · 플레이스 사진 설명, 인스타 대체 텍스트, 홈페이지 alt에 그대로</span><button class="copy" data-copy="exI4">복사</button><span id="exI4">OO반찬 아침 진열대, 매일 6시 조리한 국내산 재료 반찬 22가지
+OO반찬 대표가 저염 진미채를 손으로 무치는 장면, 국내산 재료 90%
+산본역 3번 출구 도보 5분 OO반찬 외관과 간판, 2021년 개업</span></div>
   <div class="ba">
     <div class="b"><div class="lab">BEFORE · 대체 텍스트 없음</div><p>파일명 IMG_2031.jpg, alt 비어 있음. AI가 읽는 정보: 0.</p></div>
     <div class="a"><div class="lab">AFTER</div><p>파일명 OO반찬_컷1_진열대.jpg<br>alt: "OO반찬 아침 진열대, 매일 6시 조리한 국내산 재료 반찬 22가지"</p><p>AI가 읽는 정보: 상호·장면·강점·숫자.</p></div>
@@ -674,11 +733,20 @@
   </div>
   <div class="prompt"><span class="lab"><span class="kit-num">V1</span>컷 1 움직임 프롬프트 (시작 프레임 = 컷1 이미지)</span><button class="copy" data-copy="pV1">복사</button><span id="pV1">시작 이미지의 구도와 상품을 그대로 유지. 카메라가 오른쪽으로 아주 천천히 이동(팬)하며 <span class="var" data-k="hero">[대표 상품]</span> 위로 부드러운 아침 빛이 스침. 다른 동작 없음. 매장 안의 잔잔한 배경 소리. 6초.</span></div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 1 움직임 · 한국어 (Start Frame에 컷1 이미지를 넣은 뒤)</span><button class="copy" data-copy="exV1">복사</button><span id="exV1">시작 이미지의 구도와 진미채를 그대로 유지. 카메라가 오른쪽으로 아주 천천히 이동(팬)하며 진열대 위로 부드러운 아침 빛이 스침. 다른 동작 없음. 매장 안의 잔잔한 배경 소리, 말소리 없음. 6초.</span></div>
+  <div class="prompt en"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 1 움직임 · 영어</span><button class="copy" data-copy="exV1en">복사</button><span id="exV1en">Keep the composition and the dish exactly as in the start frame. Camera pans very slowly to the right while soft morning light drifts across the display counter. No other motion. Quiet shop ambience, no voices. 6 seconds.</span></div>
   <div class="callout note"><b class="h">소리에 대해</b> Veo 3.1은 장면에 맞는 배경음(매장 소음, 지글거림)을 함께 만듭니다. 원치 않으면 프롬프트에 "소리 없음"이라고 적습니다. 목소리 나레이션은 시키지 않습니다. 사람 말소리는 아직 어색하게 나오는 경우가 많아, 말은 자막으로 처리합니다.</div>
 
   <div class="prac"><div class="num">실습<small>7-2</small></div><div><h3>컷 2·3 클립 만들기 (20크레딧)</h3><div class="goal">같은 순서로 두 클립을 더 만듭니다. 생성을 기다리는 동안 다음 클립을 준비하면 시간이 절약됩니다.</div></div><span class="time">15분</span></div>
   <div class="prompt"><span class="lab"><span class="kit-num">V2</span>컷 2 움직임 (시작 프레임 = 컷2 이미지)</span><button class="copy" data-copy="pV2">복사</button><span id="pV2">카메라 고정. 시작 이미지 속 손이 <span class="var" data-k="hero">[대표 상품]</span>을(를) 천천히 다루는 동작 하나만(버무리기 또는 담기 또는 서류를 넘기기). 손 모양 자연스럽게, 손가락 5개 유지. 조명 변화 없음. 6초.</span></div>
   <div class="prompt"><span class="lab"><span class="kit-num">V3</span>컷 3 움직임 (시작 프레임 = 컷3 이미지)</span><button class="copy" data-copy="pV3">복사</button><span id="pV3">시작 이미지의 외관과 간판을 그대로 유지. 카메라가 간판을 향해 아주 천천히 줌인. 간판 조명이 은은하게 켜지고 로고 형태는 변하지 않음. 저녁 거리의 잔잔한 소리. 6초.</span></div>
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 2 움직임 · 한국어</span><button class="copy" data-copy="exV2">복사</button><span id="exV2">카메라 고정. 시작 이미지 속 두 손이 볼 안의 진미채를 천천히 한 번 버무리는 동작만. 손 모양 자연스럽게, 손가락 5개 유지. 조명 변화 없음. 볼 안에서 재료가 살짝 뒤집힘. 잔잔한 주방 소리, 말소리 없음. 6초.</span></div>
+  <div class="prompt en"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 2 움직임 · 영어</span><button class="copy" data-copy="exV2en">복사</button><span id="exV2en">Static camera. The two hands in the start frame slowly toss the seasoned squid in the bowl once, one gentle motion only, natural hands with five fingers, no lighting change, ingredients shift slightly inside the bowl. Soft kitchen ambience, no voices. 6 seconds.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 3 움직임 · 한국어</span><button class="copy" data-copy="exV3">복사</button><span id="exV3">시작 이미지의 외관과 간판을 그대로 유지. 카메라가 간판을 향해 아주 천천히 줌인. 간판 조명이 은은하게 켜지고 로고 형태는 변하지 않음. 지나가는 사람 없음. 저녁 거리의 잔잔한 소리, 말소리 없음. 6초.</span></div>
+  <div class="prompt en"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 컷 3 움직임 · 영어</span><button class="copy" data-copy="exV3en">복사</button><span id="exV3en">Keep the storefront and signboard exactly as in the start frame. Camera zooms in very slowly toward the sign, the sign light gently turns on, logo shape unchanged, no passers-by. Quiet evening street ambience, no voices. 6 seconds.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · 간판이 흔들릴 때 다시 만드는 안전 버전</span><button class="copy" data-copy="exV3b">복사</button><span id="exV3b">카메라 완전 고정. 시작 이미지에서 바뀌는 것은 간판 조명이 천천히 켜지는 것 하나뿐. 로고와 글자는 픽셀 단위로 그대로. 소리 없음. 6초.</span></div>
   <div class="callout bad"><b class="h">간판 글자가 클립에서 흔들리면</b> AI 영상은 글자·로고 유지가 약합니다. 흔들리면 그 컷은 줌인 대신 <b>"카메라 고정, 간판 조명만 켜짐"</b>으로 다시 만듭니다(10크레딧). 그래도 안 되면 컷 3은 영상 대신 정지 이미지 6초로 두고 자막만 얹습니다. 정지 컷도 훌륭한 마무리입니다.</div>
 
   <div class="prac"><div class="num">실습<small>7-3</small></div><div><h3>연장(Extend)과 대화형 편집(Omni) 맛보기 · 선택</h3><div class="goal">클립이 짧다고 느끼면 Lite의 Extend로 이어 붙이고, 구독자는 Omni로 말하면서 고쳐 봅니다.</div></div><span class="time">시연 5분</span></div>
@@ -687,6 +755,11 @@
     <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>모델 메뉴 → 'Gemini Omni Flash 1.1'</b> (영상 편집 40크레딧, 새 영상 360p 초안 4~7크레딧)</div><h4>대화로 고치기: "배경을 조금 더 흐리게" → "조명을 더 따뜻하게" → "방금 것 유지하고 김만 더"</h4><div class="term"><b>Omni와 Veo의 차이</b> Veo는 한 번 만들고 마음에 안 들면 처음부터 다시 만듭니다. Omni는 이전 결과를 기억하고 그 위에 고칩니다. 대신 편집 1회가 40크레딧이라 오늘 무료 계정으로는 시연만 봅니다. 모든 결과물에는 SynthID(보이지 않는 AI 표시)가 자동으로 들어갑니다.</div></div></div>
   </div>
 
+  
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · Extend(연장) · 클립 선택 후 Extend 입력창에</span><button class="copy" data-copy="exX1">복사</button><span id="exX1">그리고 화면 오른쪽에서 손이 들어와 진미채가 담긴 접시를 천천히 들어 올린다. 카메라는 그대로. 6초.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>완성 예시 · Gemini Omni Flash 대화 편집 · 한 줄씩 차례로 (편집 1회 40크레딧, 시연용)</span><button class="copy" data-copy="exX2">복사</button><span id="exX2">이 클립의 배경을 조금 더 흐리게 해줘. 진미채와 손은 그대로.
+방금 것 유지하고, 조명을 조금 더 따뜻한 노란빛으로.
+방금 것 유지하고, 볼 위로 아주 얇은 김이 살짝 올라오게만 추가해줘.</span></div>
   <div class="prac"><div class="num">실습<small>7-4</small></div><div><h3>클립 3개 이어 붙이고 자막 얹기 → 15초 완성</h3><div class="goal">이어 붙이기와 자막은 Flow 밖의 익숙한 앱(캡컷·VLLO·유튜브 쇼츠 편집기)에서 합니다. 자막이 GEO의 '글자'입니다.</div></div><span class="time">13분</span></div>
   <div class="timeline">
     <div><div class="clip">컷 1<br>0~6초</div><b>자막</b>매일 아침 6시 조리</div>
@@ -699,6 +772,81 @@
     <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>편집 앱의 '텍스트' 또는 '자막' 기능</b></div><h4>컷마다 자막 1줄(15자 이내), 마지막에 정의문 1줄. 화면 아래 1/4 지점, 흰 글자에 검은 테두리</h4><p>자막 글자는 우리가 직접 치는 것이라 절대 깨지지 않습니다. 업로드 후 유튜브의 자동 자막도 켭니다. AI는 자막 텍스트를 읽습니다.</p><p class="check">확인: 15초 세로 영상 1편 저장. 자막 4줄 중 마지막이 정의문.</p></div></div>
   </div>
   <div class="callout good"><b class="h">배경음악</b> 편집 앱의 무료 음원을 쓰거나, Flow Music(구글의 음악 도구, 별도 앱)에서 "따뜻한 어쿠스틱, 15초, 가사 없음"으로 만들 수 있습니다. 저작권 표시가 필요한 음원은 피합니다. 음악은 작게, 자막이 주인공입니다.</div>
+</div></section>
+
+
+
+<!-- ================= 실습 이미지 키트 ================= -->
+<section id="assets"><div class="wrap">
+  <div class="kicker">PRACTICE ASSETS · 실습 이미지 키트</div>
+  <h2>내 사진이 아직 없어도 따라 할 수 있게: 실습용 로고·예시 이미지 11장</h2>
+  <p class="lead">세 사례(OO반찬·바른세무회계·퓨어더마)의 로고와 재료용 예시 이미지입니다. 클릭하면 내려받아지고, Flow 프로젝트에 올린 뒤 이름을 <b>@외관, @대표메뉴, @사장님, @제품, @로고</b>로 바꾸면 이 교안의 모든 프롬프트가 그대로 동작합니다. 실습용 일러스트이므로 실제 수업에서는 반드시 내 가게 사진으로 바꿉니다.</p>
+  <div class="callout warn" style="margin-top:0"><b class="h">쓰는 규칙</b> ① 로고 3종은 배경이 투명한 PNG라 간판·컵·카드 합성 실습에 바로 쓸 수 있습니다. ② 인물 이미지는 얼굴이 단순한 예시 인물입니다. Flow가 인물 얼굴을 유지하는 연습(@사장님)에 쓰되, 배포 영상에는 실제 사진을 씁니다. ③ 이 이미지들은 교안 실습 용도로만 쓰고, 실제 가게 홍보물에 그대로 쓰지 않습니다.</div>
+
+  <h3>사례 A · OO반찬</h3>
+  <div class="kitgrid">
+    <a href="assets/logo_banchan.png" download><img src="assets/logo_banchan.png" alt="OO반찬 로고 (투명 PNG) 실습용 예시 이미지" class="sq"><span><b>@로고</b>OO반찬 로고 (투명 PNG)</span></a>
+    <a href="assets/banchan_exterior.png" download><img src="assets/banchan_exterior.png" alt="가게 외관과 간판 실습용 예시 이미지"><span><b>@외관</b>가게 외관과 간판</span></a>
+    <a href="assets/banchan_menu.png" download><img src="assets/banchan_menu.png" alt="대표 상품: 저염 진미채와 진열대 실습용 예시 이미지"><span><b>@대표메뉴</b>대표 상품: 저염 진미채와 진열대</span></a>
+    <a href="assets/banchan_owner.png" download><img src="assets/banchan_owner.png" alt="대표 (예시 인물) 실습용 예시 이미지"><span><b>@사장님</b>대표 (예시 인물)</span></a>
+  </div>
+  <h3>사례 B · 바른세무회계</h3>
+  <div class="kitgrid">
+    <a href="assets/logo_tax.png" download><img src="assets/logo_tax.png" alt="바른세무회계 로고 (투명 PNG) 실습용 예시 이미지" class="sq"><span><b>@로고</b>바른세무회계 로고 (투명 PNG)</span></a>
+    <a href="assets/tax_exterior.png" download><img src="assets/tax_exterior.png" alt="사무실 건물 입구 실습용 예시 이미지"><span><b>@외관</b>사무실 건물 입구</span></a>
+    <a href="assets/tax_desk.png" download><img src="assets/tax_desk.png" alt="서류·계산기 책상 실습용 예시 이미지"><span><b>@대표메뉴 (서류)</b>서류·계산기 책상</span></a>
+    <a href="assets/tax_owner.png" download><img src="assets/tax_owner.png" alt="김바름 세무사 (예시 인물) 실습용 예시 이미지"><span><b>@사장님</b>김바름 세무사 (예시 인물)</span></a>
+  </div>
+  <h3>사례 C · 퓨어더마</h3>
+  <div class="kitgrid">
+    <a href="assets/logo_derma.png" download><img src="assets/logo_derma.png" alt="퓨어더마 로고 (투명 PNG) 실습용 예시 이미지" class="sq"><span><b>@로고</b>퓨어더마 로고 (투명 PNG)</span></a>
+    <a href="assets/derma_product.png" download><img src="assets/derma_product.png" alt="수분 릴리프 선크림 제품 실습용 예시 이미지"><span><b>@제품</b>수분 릴리프 선크림 제품</span></a>
+    <a href="assets/derma_texture.png" download><img src="assets/derma_texture.png" alt="발림 질감 실습용 예시 이미지"><span><b>@질감</b>발림 질감</span></a>
+  </div>
+  <div class="callout good"><b class="h">Flow에 올리는 순서</b> 내려받은 파일을 Flow 프로젝트의 업로드(＋ 또는 📎)로 올리고, 라이브러리에서 파일 이름을 위 태그(@외관 등)로 바꿉니다. 그다음 모듈 5의 에이전트 지침을 붙여넣고, 모듈 6의 완성 예시 프롬프트에서 @를 치면 이 파일들이 목록에 뜹니다.</div>
+</div></section>
+
+<!-- ================= 프롬프트 키트 ================= -->
+<section id="kit"><div class="wrap">
+  <div class="kicker">PROMPT KIT · 다른 업종 버전</div>
+  <h2>바로 붙여넣는 프롬프트 키트: 세무사 사무소 · 온라인 화장품 브랜드</h2>
+  <p class="lead">위 실습의 OO반찬 예시를 두 업종으로 바꾼 버전입니다. 재료 사진 이름(@사장님, @제품 등)만 내 것으로 맞추면 그대로 쓸 수 있습니다. 구조는 모두 같으니 다른 업종도 이 셋 중 가까운 것을 고쳐 쓰세요.</p>
+
+  <h3>사례 B · 바른세무회계 (지식 서비스업)</h3>
+  <div class="callout note" style="margin-top:0"><b class="h">이 업종의 영상 원칙</b> 물건이 아니라 '사람과 판단'을 파는 업종이라 대표 얼굴, 상담 장면, 서류가 주인공입니다. 실제 대표 사진(@사장님)을 반드시 재료로 넣고, 숫자(2019년 개업, 연 180건)를 자막으로 씁니다.</div>
+
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>Agent Instructions · 바른세무회계</span><button class="copy" data-copy="kB0">복사</button><span id="kB0">너는 소상공인 홍보 콘텐츠를 기획하고 만드는 조수야. 이 프로젝트의 주인공은 아래 사무소야. 아래 사실과 다르게 지어내지 마.
+정의문: 바른세무회계는 서초구 교대역 인근에서 온라인 셀러·프리랜서·1인 법인에게 기장과 세금 신고를 전문으로 하는 세무사 사무소다. 강점: 대표 김바름 세무사가 모든 상담을 직접 진행. 숫자: 2019년 개업, 연 평균 180건 신고, 첫 상담 30분 무료.
+느낌: 깔끔하고 신뢰감 있는 전문가 느낌, 밝은 사무실 조명, 사진풍. 브랜드 색: 남색과 흰색.
+규칙: 초보자용 쉬운 말 / 만들기 전 크레딧 확인 / Veo 3.1 Lite, 9:16, 6초 기본 / 얼굴·간판은 @사장님, @외관 사진 기준 / 한글 글자는 Nano Banana Pro 또는 자막 / "최고, 확실한 절세, 100% 환급" 같은 표현 금지.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>컷 1 이미지 · 상담 장면 (@사장님 을 먼저 부른 뒤)</span><button class="copy" data-copy="kB1">복사</button><span id="kB1">@사장님 이 밝은 사무실 창가 상담 테이블에서 노트북 화면과 서류를 손으로 가리키며 설명하는 장면. 얼굴은 참조 사진 그대로, 남색 재킷. 손님은 등만 살짝 보이게. 부드러운 낮 조명, 사진풍, 허리 위 정면 구도. 화면 안에 글자 없음. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>컷 2 이미지 · 서류와 숫자</span><button class="copy" data-copy="kB2">복사</button><span id="kB2">정리된 책상 위에 부가세 신고 서류 묶음, 계산기, 만년필이 놓인 클로즈업. 서류 글자는 읽히지 않게 흐릿하게. 창가 자연광, 깔끔하고 신뢰감 있는 분위기, 사진풍, 45도 위에서 본 시점. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>컷 3 이미지 · 사무실 입구 (@외관 과 @로고 를 먼저 부른 뒤)</span><button class="copy" data-copy="kB3">복사</button><span id="kB3">@외관 사진의 건물 입구와 안내판 위치를 그대로 유지하고 @로고 를 안내판에 자연스럽게. 낮 시간, 밝고 단정한 분위기, 사진풍, 정면 구도. 로고 색과 형태 유지, 다른 글자 추가 금지. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>영상 움직임 3컷 (각 클립의 Start Frame에 해당 이미지를 넣은 뒤 한 개씩)</span><button class="copy" data-copy="kB4">복사</button><span id="kB4">[컷 1] 카메라 고정. 대표가 손으로 화면을 가리키며 고개를 살짝 끄덕이는 동작 하나만. 얼굴 유지. 조용한 사무실 소리, 말소리 없음. 6초.
+[컷 2] 카메라가 서류 위를 왼쪽에서 오른쪽으로 아주 천천히 이동(팬). 만년필이 살짝 굴러 멈춤. 종이 소리, 말소리 없음. 6초.
+[컷 3] 카메라가 안내판을 향해 천천히 줌인. 유리문에 빛이 부드럽게 반사. 로고 형태 유지. 소리 없음. 6초.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>자막 4줄 + 대체 텍스트 3줄</span><button class="copy" data-copy="kB5">복사</button><span id="kB5">자막: 온라인 셀러 첫 신고, 준비 서류 4가지 / 2019년부터 연 180건 처리 / 첫 상담 30분 무료 / 바른세무회계는 서초구 교대역 인근 온라인 셀러·프리랜서 전문 세무사 사무소입니다
+alt 1: 바른세무회계 김바름 세무사가 온라인 셀러 부가세 신고를 상담하는 장면
+alt 2: 바른세무회계 부가세 신고 준비 서류 4가지, 연 180건 처리
+alt 3: 서초구 교대역 3번 출구 도보 4분 바른세무회계 입구</span></div>
+  <h3>사례 C · 퓨어더마 (온라인 화장품 브랜드)</h3>
+  <div class="callout warn" style="margin-top:0"><b class="h">이 업종의 영상 원칙</b> 매장이 없으니 제품 자체와 발림·질감이 주인공입니다. 실제 제품 사진(@제품)을 재료로 넣어 용기 디자인이 바뀌지 않게 하고, 화장품법상 "치료·완치·100%·즉각" 표현은 자막에도 쓰지 않습니다. 시험 수치(자극 지수 0.00)는 시험기관과 함께 씁니다.</div>
+
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>Agent Instructions · 퓨어더마</span><button class="copy" data-copy="kC0">복사</button><span id="kC0">너는 소상공인 홍보 콘텐츠를 기획하고 만드는 조수야. 이 프로젝트의 주인공은 아래 브랜드야. 아래 사실과 다르게 지어내지 마.
+정의문: 퓨어더마는 민감성·트러블 피부를 가진 20~30대에게 저자극 선크림과 기초 스킨케어를 만드는 온라인 화장품 브랜드다. 대표 상품: 수분 릴리프 선크림(SPF50+ PA++++). 강점: 공인 피부임상연구센터 인체적용시험 피부 자극 지수 0.00, 유분 0% 수분크림 제형. 숫자: 2022년 출시, 리뷰 [숫자]건, 50ml.
+느낌: 미니멀하고 청결한 브랜드 느낌, 부드러운 스튜디오 조명, 제품 사진풍. 브랜드 색: 흰색과 연한 민트.
+규칙: 초보자용 쉬운 말 / 만들기 전 크레딧 확인 / Veo 3.1 Lite, 9:16, 6초 기본 / 제품 용기는 @제품 사진 기준, 라벨 글자 새로 그리지 말 것 / "치료, 완치, 기적, 100%, 즉각, 피부과 추천" 표현 금지.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>컷 1 이미지 · 제품 히어로 (@제품 을 먼저 부른 뒤)</span><button class="copy" data-copy="kC1">복사</button><span id="kC1">@제품 사진의 선크림 튜브를 라벨과 색 그대로 유지한 채, 흰 대리석 위에 물방울 몇 개와 함께 놓인 제품 사진. 부드러운 스튜디오 조명, 연한 민트색 배경 그라데이션, 미니멀하고 청결한 분위기, 제품 사진풍, 45도 위에서 본 시점. 튜브의 글자를 다시 그리지 말고 원본 그대로. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>컷 2 이미지 · 발림과 질감</span><button class="copy" data-copy="kC2">복사</button><span id="kC2">손등 위에 흰색 수분크림 제형의 선크림이 얇게 펴 발리는 클로즈업. 백탁 없이 투명하게 흡수되는 느낌, 피부결이 보이는 사실적인 질감. 밝고 부드러운 조명, 제품 사진풍, 손가락 5개 자연스럽게. 화면 안 글자 없음. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>컷 3 이미지 · 시험 결과 카드 (Nano Banana Pro 권장, 글자가 핵심)</span><button class="copy" data-copy="kC3">복사</button><span id="kC3">연한 민트색 배경의 깔끔한 카드 디자인. 가운데에 "피부 자극 지수 0.00" 이라는 한글 문구를 정확히 그대로 크게, 그 아래 작은 글씨로 "인체적용시험 · 공인 피부임상연구센터" 를 정확히 그대로. 다른 글자는 넣지 마. @제품 튜브를 카드 오른쪽 아래에 작게. 미니멀, 제품 사진풍. 세로 9:16.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>영상 움직임 3컷</span><button class="copy" data-copy="kC4">복사</button><span id="kC4">[컷 1] 카메라가 제품을 중심으로 아주 천천히 시계 방향으로 돌며(오빗) 물방울에 빛이 반짝임. 라벨 글자 유지. 잔잔한 물소리, 말소리 없음. 6초.
+[컷 2] 카메라 고정. 손가락이 손등 위 크림을 한 번 부드럽게 펴 바르는 동작만. 크림이 투명하게 흡수됨. 손가락 5개. 소리 없음. 6초.
+[컷 3] 카메라 완전 고정. 카드의 글자는 픽셀 단위로 그대로. 배경 그라데이션이 아주 천천히 밝아지는 변화만. 소리 없음. 6초.</span></div>
+  <div class="prompt"><span class="lab"><span class="kit-num">예시</span>자막 4줄 + 대체 텍스트 3줄</span><button class="copy" data-copy="kC5">복사</button><span id="kC5">자막: 선크림 바르면 트러블, 원인은 3가지 / 유분 0% 수분크림 제형 / 인체적용시험 자극 지수 0.00 / 퓨어더마는 민감성·트러블 피부를 위한 저자극 선크림 브랜드입니다
+alt 1: 퓨어더마 수분 릴리프 선크림 SPF50+ 50ml 제품, 유분 0% 수분크림 제형
+alt 2: 퓨어더마 수분 릴리프 선크림 손등 발림, 백탁 없음
+alt 3: 퓨어더마 수분 릴리프 선크림 인체적용시험 피부 자극 지수 0.00 결과 카드</span></div>
+  <div class="callout good"><b class="h">내 업종으로 바꾸는 법</b> ① 정의문의 상호·동네·손님·상품·강점·숫자만 교체 ② 재료 사진 이름을 내 파일 이름으로(@외관, @대표메뉴, @사장님, @제품, @로고) ③ 금지 표현 줄을 내 업종 규정(식품·화장품·의료·금융)에 맞게 ④ 자막 4줄의 숫자를 내 진짜 숫자로. 나머지 카메라·조명·구도 문장은 그대로 두어도 됩니다.</div>
 </div></section>
 
 <!-- ================= 8 올리기 ================= -->
